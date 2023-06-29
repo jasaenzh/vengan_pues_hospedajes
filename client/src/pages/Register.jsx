@@ -1,18 +1,32 @@
 import { useForm } from "react-hook-form"
-import { registerRequest } from "../api/auth.calls.js";
-import { useNavigate, Link } from "react-router-dom";
-import Cookies from "js-cookie";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"
+import { useEffect } from "react";
+
 
 function Register() {
 
-  const { register, handleSubmit } = useForm();
+  // Libreria para manerjar Formularios
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+
+  // Desesctructuracion de la funcion de autenticacion
+  const { checkIn, isAuthenticated, errors: registerErrors } = useAuth()
+
+  // Libreria para navegar
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/')
+    }
+  }, [isAuthenticated])
 
   const onRegisterSubmit = handleSubmit(async (values) => {
-    const response = await registerRequest(values)
-    const token = Cookies.get("token")
-    console.log(token)
-    console.log(response)
+    checkIn(values)
   })
+
+
 
   return (
     <div className="bg-grey-lighter min-h-screen flex flex-col">
@@ -21,9 +35,18 @@ function Register() {
 
         <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
 
+          {
+            registerErrors.map((error, index) => (
+              <div key={index} className="text-red-500">
+                {error}
+              </div>
+            ))
+          }
+
           <h1 className="mb-8 text-3xl text-center">Registrarse</h1>
           <form onSubmit={onRegisterSubmit}>
             <div>
+              {errors.username && <p className="text-red-500">El usuario es requerido</p>}
               <input
                 type="text"
                 id="username"
@@ -32,13 +55,16 @@ function Register() {
                 {...register("username", { required: true })} />
             </div>
 
+
             <div>
+              {errors.firstName && <p className="text-red-500">El nombre es requerido</p>}
               <input
                 type="text"
                 id="firstName"
                 className="block border border-grey-light w-full p-3 rounded mb-4"
                 placeholder="Primer nombre"
                 {...register("firstName", { required: true })} />
+
             </div>
 
             <div>
@@ -51,12 +77,14 @@ function Register() {
             </div>
 
             <div>
+              {errors.lastName && <p className="text-red-500">El apellido es requerido</p>}
               <input
                 type="text"
                 id="lastName"
                 className="block border border-grey-light w-full p-3 rounded mb-4"
                 placeholder="Primer apellido"
                 {...register("lastName", { required: true })} />
+
             </div>
 
             <div>
@@ -69,6 +97,7 @@ function Register() {
             </div>
 
             <div>
+              {errors.email && <p className="text-red-500">El email es requerido</p>}
               <input
                 type="text"
                 id="email"
@@ -77,6 +106,7 @@ function Register() {
             </div>
 
             <div>
+              {errors.password && <p className="text-red-500">La contraseña es requerida</p>}
               <input
                 type="password"
                 id="password"

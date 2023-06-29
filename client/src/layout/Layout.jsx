@@ -6,8 +6,10 @@ import PropTypes from "prop-types";
 function Layout({ children }) {
   return (
     <>
-      <Navbar />
-      {children}
+      <main className='container mx-auto px-5'>
+        <Navbar />
+        {children}
+      </main>
     </>
   )
 }

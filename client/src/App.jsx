@@ -4,21 +4,30 @@ import Register from "./pages/Register"
 import Login from "./pages/Login"
 import Home from "./pages/Home"
 import Profile from "./pages/Profile"
+import { AuthProvider } from "./context/AuthContext"
 
 function App() {
   return (
-    <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/iniciar-sesion" element={<Login />} />
-          <Route path="/registrarse" element={<Register />} />
-          <Route path="/perfil" element={<Profile />} />
-          <Route path="/*" element={<div>Not found</div>} />
-        </Routes>
-      </Layout>
+    <AuthProvider>
+      <BrowserRouter>
+        <Layout>
+          <Routes>
 
-    </BrowserRouter>
+            {/* Rutas Publicas */}
+            <Route path="/" element={<Home />} />
+            <Route path="/registrarse" element={<Register />} />
+            <Route path="/iniciar-sesion" element={<Login />} />
+
+            {/* Rutas Privadas */}
+            <Route path="/perfil" element={<Profile />} />
+
+            {/* Ruta 404 - No Encontrada   */}
+            <Route path="/*" element={<div>Not found</div>} />
+          </Routes>
+        </Layout>
+      </BrowserRouter>
+    </AuthProvider>
+
   )
 }
 

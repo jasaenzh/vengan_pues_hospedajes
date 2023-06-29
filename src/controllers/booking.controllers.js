@@ -111,9 +111,6 @@ export const createBooking = async (req, res) => {
 export const getAllBookings = async (req, res) => {
 
   // const { user: id } = req.user;
-
-  console.log(req.user.id)
-
   try {
 
     const bookings = await Booking.find({ user: req.user.id });

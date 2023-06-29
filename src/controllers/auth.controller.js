@@ -184,8 +184,6 @@ export const updateUser = async (req, res) => {
     return res.status(500).json(error)
   }
 
-  res.status(200).json("Estas en la ruta de actualizar usuario")
-
 }
 
 /** Resetear contraseña de usuario    */

@@ -14,7 +14,6 @@ export const editProfile = (req, res, next) => {
       next();
     }
   }).catch(err => {
-    console.error(err);
     return res.status(500).json({ message: 'Error al buscar el usuario' });
   });
 
