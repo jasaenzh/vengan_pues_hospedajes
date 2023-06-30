@@ -2,7 +2,7 @@
 
 // Importo createContext para poder crear un contexto
 import { createContext, useContext, useState, useEffect } from "react";
-import { profileRequest, registerRequest } from "../api/auth.calls";
+import { profileRequest, registerRequest, verifyEmailRequest } from "../api/auth.calls";
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie'
 
@@ -30,71 +30,95 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   // Creo el estado de errores
-  const [errors, setErrors] = useState([]);
+  const [errorsAuth, setErrorsAuth] = useState([]);
 
 
-  /** Si hay un usuario logeado, seteamos la cookie  */
-  useEffect(() => {
-    async function checkLogin() {
-      const cookie = Cookies.get();
-
-      /** Comprueba si hay un token en la cookie */
-      if (!cookie.token) {
-        setIsAuthenticated(false);
-        setLoading(false);
-        return setUser(null)
-      }
-
-
-      /** Si hay un token, verifica que sea válido en el backend  */
-      try {
-        // Aca lo envio al backend para verificar que sea válido
-        const response = await profileRequest(cookie.token)
-
-        // Si no hay nada en la respuesta, es porque el token no es válido
-        if (!response.data) {
-          setIsAuthenticated(false)
-          setLoading(false)
-          return
-        }
-
-        // Si hay algo en la respuesta, es porque el token es válido, actualizo los estados
-        setIsAuthenticated(true)
-        setUser(response.data)
-        setLoading(false)
-
-      } catch (error) {
-        setIsAuthenticated(false)
-        setUser(null)
-        setLoading(false)
-      }
-
-    }
-    checkLogin()
-  }, [])
-
-
-  /** Si hay errores, seteamos un timeout para que desaparezcan */
-  useEffect(() => {
-    if (errors.length > 0) {
-      const timer = setTimeout(() => {
-        setErrors([])
-      }, 5000);
-      return () => clearTimeout(timer)
-    }
-  }, [errors])
 
 
   // Contexto para el estado registra usuario
   const checkIn = async (user) => {
+
     try {
-      const response = registerRequest(user);
-      setUser(response.data)
+      const response = await registerRequest(user)
+      setUser(response.data);
       setIsAuthenticated(true);
     } catch (error) {
-      setErrors(error.response.data)
+      setErrorsAuth(error.response.data)
+    }
+
+  }
+
+  // const checkIn = async (user) => {
+  //   try {
+  //     const response = await registerRequest(user);
+  //     setUser(response.data);
+  //     setIsAuthenticated(true);
+  //   } catch (error) {
+  //     if (error.response && error.response.data) {
+  //       setErrorsAuth([error.response.data]);
+  //     } else {
+  //       setErrorsAuth(["Ocurrió un error durante el registro"]);
+  //     }
+  //   }
+  // };
+
+  const verifyEmail = async (code) => {
+    try {
+      const response = await verifyEmailRequest(code);
+      return response
+    } catch (error) {
+      setErrorsAuth(error.response.data);
     }
   }
+
+  /** Si hay un usuario logeado, seteamos la cookie  */
+  useEffect(() => {
+    async function checkLogin() {
+      const token = Cookies.get('token');
+
+      /** Comprueba si hay un token en la cookie */
+      if (!token) {
+        setIsAuthenticated(false);
+        setLoading(false);
+        return setUser(null);
+      }
+
+      /** Si hay un token, verifica que sea válido en el backend  */
+      try {
+        // Envía el token al backend para verificar su validez
+        const response = await profileRequest(token);
+
+        // Si no hay nada en la respuesta, es porque el token no es válido
+        if (!response.data) {
+          setIsAuthenticated(false);
+          setLoading(false);
+          return;
+        }
+
+        // Si hay algo en la respuesta, es porque el token es válido, actualiza los estados
+        setIsAuthenticated(true);
+        setUser(response.data);
+        console.log("Usuario Si hay algo en la respuesta", user);
+        setLoading(false);
+      } catch (error) {
+        setIsAuthenticated(false);
+        setUser(null);
+        setLoading(false);
+      }
+    }
+    checkLogin();
+  }, []);
+
+
+  /** Si hay errores, seteamos un timeout para que desaparezcan */
+  useEffect(() => {
+    if (errorsAuth.length > 0) {
+      const timer = setTimeout(() => {
+        setErrorsAuth([])
+      }, 5000);
+      return () => clearTimeout(timer)
+    }
+  }, [errorsAuth])
 
 
 
@@ -102,9 +126,10 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider value={{
       user,
       isAuthenticated,
-      errors,
+      errorsAuth,
       loading,
-      checkIn
+      checkIn,
+      verifyEmail
     }}>
       {children}
     </AuthContext.Provider>

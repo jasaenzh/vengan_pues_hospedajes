@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 
 function Register() {
@@ -11,21 +11,27 @@ function Register() {
 
 
   // Desesctructuracion de la funcion de autenticacion
-  const { checkIn, isAuthenticated, errors: registerErrors } = useAuth()
+  const { checkIn, user, isAuthenticated, errorsAuth } = useAuth()
 
   // Libreria para navegar
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+
+  console.log("Usuario", user)
+  console.log("Autenticado", isAuthenticated)
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/')
+      console.log("Paso por isAuthenticated", isAuthenticated)
+      navigate('/validar-email')
     }
-  }, [isAuthenticated])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, navigate])
 
   const onRegisterSubmit = handleSubmit(async (values) => {
-    checkIn(values)
+    const success = await checkIn(values);
+    console.log("success", success)
   })
-
 
 
   return (
@@ -36,7 +42,7 @@ function Register() {
         <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
 
           {
-            registerErrors.map((error, index) => (
+            errorsAuth.map((error, index) => (
               <div key={index} className="text-red-500">
                 {error}
               </div>

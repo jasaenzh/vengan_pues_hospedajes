@@ -66,6 +66,7 @@ export const registerUser = async (req, res) => {
       createdAt: savedUser.createdAt,
       updatedAt: savedUser.updatedAt,
       emailVerificationCode: savedUser.emailVerificationCode,
+      emailVerified: savedUser.emailVerified,
     })
 
   } catch (error) {
@@ -126,6 +127,7 @@ export const loginUser = async (req, res) => {
       fullName: findUser.fullName,
       createdAt: findUser.createdAt,
       updatedAt: findUser.updatedAt,
+      emailVerified: findUser.emailVerified,
     })
 
   } catch (error) {
@@ -156,6 +158,7 @@ export const profileUser = async (req, res) => {
       permissions: findUser.permissions,
       createdAt: findUser.createdAt,
       updatedAt: findUser.updatedAt,
+      emailVerified: findUser.emailVerified,
     })
   } catch (error) {
     res.status(500).json(error)
@@ -183,6 +186,8 @@ export const updateUser = async (req, res) => {
   } catch (error) {
     return res.status(500).json(error)
   }
+
+  res.status(200).json("Estas en la ruta de actualizar usuario")
 
 }
 
