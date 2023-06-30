@@ -6,20 +6,20 @@ import Home from "./pages/Home"
 import Profile from "./pages/Profile"
 import ValidateEmail from "./pages/ValidateEmail"
 
-import { useEffect } from "react";
-import { useAuth } from "./context/AuthContext"
+// import { useEffect } from "react";
+// import { useAuth } from "./context/AuthContext"
 import ProtectedRoute from "./ProtectedRoute"
 // import Cookies from 'js-cookie'
 
 function App() {
 
-  const { user, isAuthenticated } = useAuth();
+  // const { user, isAuthenticated } = useAuth();
 
-  useEffect(() => {
-    console.log("Contexto global Usuario", user)
-    console.log("Esta autenticado?", isAuthenticated)
+  // useEffect(() => {
+  //   console.log("Contexto global Usuario", user)
+  //   console.log("Esta autenticado?", isAuthenticated)
 
-  }, [user, isAuthenticated])
+  // }, [user, isAuthenticated])
 
   return (
 
