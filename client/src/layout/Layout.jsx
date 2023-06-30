@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 function Layout({ children }) {
   return (
     <>
-      <main className='container mx-auto px-5'>
+      <main className='container mx-auto px-5 '>
         <Navbar />
         {children}
       </main>

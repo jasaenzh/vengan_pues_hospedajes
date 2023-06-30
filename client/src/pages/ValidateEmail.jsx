@@ -14,7 +14,7 @@ function ValidateEmail() {
   const [verificationResult, setVerificationResult] = useState(null);
   const [validatingEmail, setValidatingEmail] = useState(false);
 
-  const { verifyEmail, user, isAuthenticated } = useAuth()
+  const { verifyEmail, user, isAuthenticated, errorsAuth } = useAuth()
 
   const onVerifyEmail = handleSubmit(async (values) => {
     console.log("user", user)
@@ -66,6 +66,13 @@ function ValidateEmail() {
         </form>
 
         <div>
+          {
+            errorsAuth.map((error, index) => (
+              <div key={index} className="text-red-500">
+                {error}
+              </div>
+            ))
+          }
           {/* Mostrar el mensaje de validación mientras se espera la respuesta */}
           {validatingEmail && (
             <div className="mt-4">

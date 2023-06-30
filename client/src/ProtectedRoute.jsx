@@ -9,7 +9,7 @@ function ProtectedRoute() {
   if (loading) return <h1>Cargando...</h1>
 
   if (!loading && !isAuthenticated) {
-    return <Navigate to="/" replace />
+    return <Navigate to="/iniciar-sesion" replace />
   }
 
   return (

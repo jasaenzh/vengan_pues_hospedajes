@@ -8,19 +8,10 @@ import ValidateEmail from "./pages/ValidateEmail"
 
 import { useEffect } from "react";
 import { useAuth } from "./context/AuthContext"
+import ProtectedRoute from "./ProtectedRoute"
 // import Cookies from 'js-cookie'
 
 function App() {
-
-
-  // const { isAuthenticated, user } = useAuth();
-
-  // useEffect(() => {
-  //   console.log("Contexto global Usuario", user)
-  //   if (isAuthenticated === false) {
-  //     Cookies.remove("token");
-  //   }
-  // }, [isAuthenticated, user])
 
   const { user, isAuthenticated } = useAuth();
 
@@ -42,8 +33,10 @@ function App() {
           <Route path="/iniciar-sesion" element={<Login />} />
 
           {/* Rutas Privadas */}
-          <Route path="/perfil" element={<Profile />} />
-          <Route path="/validar-email" element={<ValidateEmail />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/perfil" element={<Profile />} />
+            <Route path="/validar-email" element={<ValidateEmail />} />
+          </Route>
 
           {/* Ruta 404 - No Encontrada   */}
           <Route path="/*" element={<div>Not found</div>} />

@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  background-image: url("../fondo-1.svg");
+  background-attachment: fixed;
+  background-size: cover;
+}

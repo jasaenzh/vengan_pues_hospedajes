@@ -49,7 +49,7 @@ function Register() {
             ))
           }
 
-          <h1 className="mb-8 text-3xl text-center">Registrarse</h1>
+          <h1 className="mb-8 text-3xl text-center">Registrate</h1>
           <form onSubmit={onRegisterSubmit}>
             <div>
               {errors.username && <p className="text-red-500">El usuario es requerido</p>}
@@ -103,12 +103,12 @@ function Register() {
             </div>
 
             <div>
-              {errors.email && <p className="text-red-500">El email es requerido</p>}
+              {errors.email && <p className="text-red-500">El correo es requerido</p>}
               <input
                 type="text"
                 id="email"
                 className="block border border-grey-light w-full p-3 rounded mb-4"
-                placeholder="Email" {...register("email", { required: true })} />
+                placeholder="Correo" {...register("email", { required: true })} />
             </div>
 
             <div>

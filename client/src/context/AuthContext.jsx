@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-refresh/only-export-components */
 
 // Importo createContext para poder crear un contexto
 import { createContext, useContext, useState, useEffect } from "react";
-import { profileRequest, registerRequest, verifyEmailRequest } from "../api/auth.calls";
+import { profileRequest, registerRequest, verifyEmailRequest, loginRequest } from "../api/auth.calls";
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie'
 
@@ -62,6 +63,7 @@ export const AuthProvider = ({ children }) => {
   //   }
   // };
 
+  // Contexto para el estado verificar email
   const verifyEmail = async (code) => {
     try {
       const response = await verifyEmailRequest(code);
@@ -70,6 +72,27 @@ export const AuthProvider = ({ children }) => {
       setErrorsAuth(error.response.data);
     }
   }
+
+  // Contexto para iniciar sesión
+  const singIn = async (user) => {
+    try {
+      const response = await loginRequest(user)
+      setUser(response.data);
+      setIsAuthenticated(true);
+    } catch (error) {
+      setErrorsAuth(error.response.data);
+    }
+  }
+
+  // Contexto para cerrar sesión
+  const singOut = () => {
+    Cookies.remove('token');
+    setIsAuthenticated(false);
+    setUser(null);
+    setLoading(false);
+    return;
+  }
+
 
   /** Si hay un usuario logeado, seteamos la cookie  */
   useEffect(() => {
@@ -98,7 +121,6 @@ export const AuthProvider = ({ children }) => {
         // Si hay algo en la respuesta, es porque el token es válido, actualiza los estados
         setIsAuthenticated(true);
         setUser(response.data);
-        console.log("Usuario Si hay algo en la respuesta", user);
         setLoading(false);
       } catch (error) {
         setIsAuthenticated(false);
@@ -129,7 +151,9 @@ export const AuthProvider = ({ children }) => {
       errorsAuth,
       loading,
       checkIn,
-      verifyEmail
+      verifyEmail,
+      singIn,
+      singOut
     }}>
       {children}
     </AuthContext.Provider>
