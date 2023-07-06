@@ -128,6 +128,7 @@ export const loginUser = async (req, res) => {
       createdAt: findUser.createdAt,
       updatedAt: findUser.updatedAt,
       emailVerified: findUser.emailVerified,
+      permissions: findUser.permissions,
     })
 
   } catch (error) {
@@ -159,6 +160,7 @@ export const profileUser = async (req, res) => {
       createdAt: findUser.createdAt,
       updatedAt: findUser.updatedAt,
       emailVerified: findUser.emailVerified,
+      permissions: findUser.permissions,
     })
   } catch (error) {
     res.status(500).json(error)

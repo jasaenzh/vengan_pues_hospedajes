@@ -9,6 +9,8 @@ import ValidateEmail from "./pages/ValidateEmail"
 // import { useEffect } from "react";
 // import { useAuth } from "./context/AuthContext"
 import ProtectedRoute from "./ProtectedRoute"
+import ProtectedRouteAdmin from "./ProtectedRouteAdmin"
+import AdminApartment from "./pages/AdminApartment"
 // import Cookies from 'js-cookie'
 
 function App() {
@@ -36,6 +38,11 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/perfil" element={<Profile />} />
             <Route path="/validar-email" element={<ValidateEmail />} />
+          </Route>
+
+          {/* Rutas Privadas - Admin  */}
+          <Route element={<ProtectedRouteAdmin />}>
+            <Route path="/admin-apartamentos" element={<AdminApartment />} />
           </Route>
 
           {/* Ruta 404 - No Encontrada   */}
