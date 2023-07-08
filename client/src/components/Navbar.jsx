@@ -39,7 +39,7 @@ function Navbar() {
       const userPermissions = user?.permissions;
       if (userPermissions && userPermissions.includes("adminAccess")) {
         setLinksToShow(LinksAdmin)
-      } else {
+      } else if (userPermissions && userPermissions.includes("controlAccess")) {
         setLinksToShow(LinksSupervisor)
       }
     }

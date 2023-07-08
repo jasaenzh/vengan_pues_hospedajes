@@ -11,6 +11,7 @@ import ValidateEmail from "./pages/ValidateEmail"
 import ProtectedRoute from "./ProtectedRoute"
 import ProtectedRouteAdmin from "./ProtectedRouteAdmin"
 import AdminApartment from "./pages/AdminApartment"
+import CreateApartment from "./pages/CreateApartment"
 // import Cookies from 'js-cookie'
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
           {/* Rutas Privadas - Admin  */}
           <Route element={<ProtectedRouteAdmin />}>
             <Route path="/admin-apartamentos" element={<AdminApartment />} />
+            <Route path="/admin-apartamentos/crear-apartamento" element={<CreateApartment />} />
           </Route>
 
           {/* Ruta 404 - No Encontrada   */}
