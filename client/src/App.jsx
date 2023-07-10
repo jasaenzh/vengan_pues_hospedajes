@@ -7,7 +7,9 @@ import Login from "./pages/Login";
 import ProtectedRoute from "./ProtectedRoute";
 import Profile from "./pages/Profile";
 import ValidateEmail from "./pages/ValidateEmail"
-// import ProtectedRouteAdmin from "./ProtectedRouteAdmin";
+import ProtectedRouteAdmin from "./ProtectedRouteAdmin";
+import AdminApartment from "./pages/AdminApartment"
+import CreateApartment from "./pages/CreateApartment"
 
 
 function App() {
@@ -28,10 +30,10 @@ function App() {
           </Route>
 
           {/* Rutas Privadas - Admin  */}
-          {/* <Route element={<ProtectedRouteAdmin />}>
+          <Route element={<ProtectedRouteAdmin />}>
             <Route path="/admin-apartamentos" element={<AdminApartment />} />
             <Route path="/admin-apartamentos/crear-apartamento" element={<CreateApartment />} />
-          </Route> */}
+          </Route>
 
           {/* Ruta 404 - No Encontrada   */}
           <Route path="/*" element={<div>Not found</div>} />

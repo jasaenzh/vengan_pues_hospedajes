@@ -1,6 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 // Importo createContext para poder crear un contexto
 import { createContext, useContext, useState, useEffect } from "react";
 import { profileRequest, registerRequest, verifyEmailRequest, loginRequest } from "../api/auth.calls";
+import PropTypes from 'prop-types';
 import Cookies from 'js-cookie'
 
 
@@ -156,3 +159,7 @@ export const AuthProvider = ({ children }) => {
   )
 
 }
+
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
