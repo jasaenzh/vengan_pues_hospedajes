@@ -48,8 +48,8 @@ function Navbar() {
 
 
   return (
-    <div className='bg-white shadow-md w-full top-0 left-0 z-10 my-3'>
-      <div className='md:flex justify-between items-center bg-white py-4 px-4 md:px-8'>
+    <div className='bg-white shadow-md w-full top-0 left-0 z-10 my-3 rounded-2xl'>
+      <div className='md:flex justify-between items-center bg-white py-4 px-4 md:px-8 '>
 
         {/* Logo y titulo  de la pagina */}
         <div className='flex items-center gap-3'>
@@ -62,7 +62,7 @@ function Navbar() {
           <IonIcon icon={open ? `${close}` : `${menu}`} />
         </div>
 
-        <ul className={`md:flex md:items-center md:pb-0 pb-12 absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-7 transition-all duration-500 ease-in ${open ? 'top-20 opacity-100' : 'top-[-490px]'}`}>
+        <ul className={`md:flex md:items-center md:pb-0 pb-12 absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-6 transition-all duration-500 ease-in ${open ? 'top-20 opacity-100' : 'top-[-490px]'}`}>
           {
             linksToShow.map((link, index) => (
               <li key={index} className='md:ml-8 text-xl md:my-0 my-7'>
