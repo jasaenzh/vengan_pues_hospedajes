@@ -76,7 +76,6 @@ export const AuthProvider = ({ children }) => {
   const singIn = async (user) => {
     try {
       const response = await loginRequest(user)
-      console.log(response)
       setUser(response.data);
       setIsAuthenticated(true);
     } catch (error) {
@@ -96,24 +95,32 @@ export const AuthProvider = ({ children }) => {
 
   /** Si hay un usuario logeado, seteamos la cookie  */
   useEffect(() => {
+    console.log("Paso por aquí UseEffect")
     async function checkLogin() {
+      console.log("Paso por aquí checkLogin")
       const token = Cookies.get('token');
-      console.log(token)
+      console.log("Seteo Token", token)
 
       /** Comprueba si hay un token en la cookie */
       if (!token) {
+        console.log("No hay token")
         setIsAuthenticated(false);
         setLoading(false);
         return setUser(null);
       }
+
+      console.log("Esta a punto de ingresar al try")
 
       /** Si hay un token, verifica que sea válido en el backend  */
       try {
         // Envía el token al backend para verificar su validez
         const response = await profileRequest(token);
 
+        console.log("response de ProfileRequest", response)
+
         // Si no hay nada en la respuesta, es porque el token no es válido
         if (!response.data) {
+          console.log("No hay nada en la respuesta", response)
           setIsAuthenticated(false);
           setLoading(false);
           return;
