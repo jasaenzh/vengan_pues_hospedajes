@@ -10,8 +10,7 @@ const app = express();
 // Middlewares
 app.use(cors({
   origin: [
-    'http://127.0.0.1:5173',
-    'http://localhost:5173',
+    'http://localhost:3000',
     'https://vengan-pues-hospedajes.vercel.app'
   ],
   credentials: true,
