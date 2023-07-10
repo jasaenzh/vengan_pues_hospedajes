@@ -76,6 +76,7 @@ export const AuthProvider = ({ children }) => {
   const singIn = async (user) => {
     try {
       const response = await loginRequest(user)
+      console.log(response)
       setUser(response.data);
       setIsAuthenticated(true);
     } catch (error) {
@@ -97,6 +98,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     async function checkLogin() {
       const token = Cookies.get('token');
+      console.log(token)
 
       /** Comprueba si hay un token en la cookie */
       if (!token) {
