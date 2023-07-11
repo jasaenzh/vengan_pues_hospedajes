@@ -5,13 +5,10 @@ const { JWT_SECRET } = enviroment
 
 export const authRequired = (req, res, next) => {
   // Primero leo el token
-  const { token } = req.cookies;
+  const token = req.headers.authorization.split(' ')[1];
 
-  console.log("req.cookies", req.cookies)
-
-  console.log("req.headers", req.headers)
-
-  console.log("Token de authRequired", token)
+  console.log("req.headers", req.headers.authorization.split(' ')[1])
+  console.log("token", token)
 
   // Si no hay token, retorno un error
   if (!token) return res.status(401).json(['No autorizado'])
