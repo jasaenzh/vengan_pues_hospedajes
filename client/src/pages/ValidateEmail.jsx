@@ -17,7 +17,6 @@ function ValidateEmail() {
   const { verifyEmail, user, isAuthenticated, errorsAuth } = useAuth()
 
   const onVerifyEmail = handleSubmit(async (values) => {
-    console.log("user", user)
     const success = await verifyEmail(values.emailVerificationCode)
 
     setValidatingEmail(true);

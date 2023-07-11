@@ -33,7 +33,6 @@ export const ApartmentProvider = ({ children }) => {
   const getApartments = async () => {
     try {
       const response = await getApartmentsRequest()
-      console.log(response.data)
       setApartments(response.data)
     } catch (error) {
       setErrorsApartment(error.response.data);

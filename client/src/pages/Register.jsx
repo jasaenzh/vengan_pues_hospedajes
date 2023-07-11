@@ -11,26 +11,21 @@ function Register() {
 
 
   // Desesctructuracion de la funcion de autenticacion
-  const { checkIn, user, isAuthenticated, errorsAuth } = useAuth()
+  const { checkIn, isAuthenticated, errorsAuth } = useAuth()
 
   // Libreria para navegar
   const navigate = useNavigate();
 
 
-  console.log("Usuario", user)
-  console.log("Autenticado", isAuthenticated)
-
   useEffect(() => {
     if (isAuthenticated) {
-      console.log("Paso por isAuthenticated", isAuthenticated)
       navigate('/validar-email')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, navigate])
 
   const onRegisterSubmit = handleSubmit(async (values) => {
-    const success = await checkIn(values);
-    console.log("success", success)
+    await checkIn(values);
   })
 
 
