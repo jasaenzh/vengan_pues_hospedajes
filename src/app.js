@@ -7,6 +7,8 @@ import cors from 'cors';
 
 const app = express();
 
+app.use(cookieParser());
+
 // Middlewares
 app.use(cors({
   origin: [
