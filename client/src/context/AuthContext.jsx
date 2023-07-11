@@ -134,7 +134,7 @@ export const AuthProvider = ({ children }) => {
       }
     }
     checkLogin();
-  }, []);
+  }, [user]);
 
 
   /** Si hay errores, seteamos un timeout para que desaparezcan */
