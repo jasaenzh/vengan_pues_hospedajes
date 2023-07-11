@@ -76,6 +76,7 @@ export const AuthProvider = ({ children }) => {
   const singIn = async (user) => {
     try {
       const response = await loginRequest(user)
+      console.log("Respuesta SingIn", response)
       setUser(response.data);
       setIsAuthenticated(true);
     } catch (error) {
