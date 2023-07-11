@@ -139,6 +139,8 @@ export const AuthProvider = ({ children }) => {
       try {
         const response = await profileRequest(token);
 
+        console.log("Respuesta ProfileRequest", response)
+
         if (!response.data) {
           setIsAuthenticated(false);
           setLoading(false);
