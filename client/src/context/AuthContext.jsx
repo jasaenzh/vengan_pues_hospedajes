@@ -72,39 +72,38 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
-  // // Contexto para iniciar sesión
-  // const singIn = async (user) => {
-  //   try {
-  //     const response = await loginRequest(user)
-  //     console.log("Respuesta SingIn", response.data)
-  //     setUser(response.data);
-  //     setIsAuthenticated(true);
-  //   } catch (error) {
-  //     setErrorsAuth(error.response.data);
-  //   }
-  // }
-
-
   // Contexto para iniciar sesión
   const singIn = async (user) => {
     try {
-      const response = await loginRequest(user);
+      const response = await loginRequest(user)
       console.log("Respuesta SingIn", response.data)
       setUser(response.data);
       setIsAuthenticated(true);
-
-      const token = response.data.token;
-
-      Cookies.set('token', token, {
-        domain: 'vengan-pues-hospedajes.vercel.app',
-        path: '/',
-        secure: true,
-        sameSite: 'none'
-      });
     } catch (error) {
       setErrorsAuth(error.response.data);
     }
-  };
+  }
+
+  // // Contexto para iniciar sesión
+  // const singIn = async (user) => {
+  //   try {
+  //     const response = await loginRequest(user);
+  //     console.log("Respuesta SingIn", response.data)
+  //     setUser(response.data);
+  //     setIsAuthenticated(true);
+
+  //     const token = response.data.token;
+
+  //     Cookies.set('token', token, {
+  //       domain: 'vengan-pues-hospedajes.vercel.app',
+  //       path: '/',
+  //       secure: true,
+  //       sameSite: 'none'
+  //     });
+  //   } catch (error) {
+  //     setErrorsAuth(error.response.data);
+  //   }
+  // };
 
 
 
@@ -119,29 +118,20 @@ export const AuthProvider = ({ children }) => {
   }
 
 
-  /** Si hay un usuario logeado, seteamos la cookie  */
+  // /** Si hay un usuario logeado, seteamos la cookie  */
   useEffect(() => {
     async function checkLogin() {
-      if (!user) {
-        setIsAuthenticated(false);
-        setLoading(false);
-        return;
-      }
-
-      const token = user.token;
-
-      if (!token) {
-        setIsAuthenticated(false);
-        setLoading(false);
-        return setUser(null);
-      }
-
-      console.log("Ingresando a tryCatch")
-
       try {
-        const response = await profileRequest(token);
+        const token = localStorage.getItem("token");
+        console.log("Token LocalStorage", token)
 
-        console.log("Respuesta ProfileRequest", response)
+        if (!token) {
+          setIsAuthenticated(false);
+          setLoading(false);
+          return setUser(null);
+        }
+
+        const response = await profileRequest(token);
 
         if (!response.data) {
           setIsAuthenticated(false);
@@ -158,9 +148,51 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
       }
     }
-
     checkLogin();
-  }, [user]);
+  }, []);
+
+
+  // useEffect(() => {
+  //   async function checkLogin() {
+  //     if (!user) {
+  //       setIsAuthenticated(false);
+  //       setLoading(false);
+  //       return;
+  //     }
+
+  //     const token = user.token;
+
+  //     if (!token) {
+  //       setIsAuthenticated(false);
+  //       setLoading(false);
+  //       return setUser(null);
+  //     }
+
+  //     console.log("Ingresando a tryCatch")
+
+  //     try {
+  //       const response = await profileRequest(token);
+
+  //       console.log("Respuesta ProfileRequest", response)
+
+  //       if (!response.data) {
+  //         setIsAuthenticated(false);
+  //         setLoading(false);
+  //         return;
+  //       }
+
+  //       setIsAuthenticated(true);
+  //       setUser(response.data);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       setIsAuthenticated(false);
+  //       setUser(null);
+  //       setLoading(false);
+  //     }
+  //   }
+
+  //   checkLogin();
+  // }, [user]);
 
 
   // useEffect(() => {
@@ -207,42 +239,6 @@ export const AuthProvider = ({ children }) => {
   //   }
   //   checkLogin();
   // }, [user]);
-
-
-
-
-
-  // useEffect(() => {
-  //   async function checkLogin() {
-  //     try {
-  //       const token = localStorage.getItem("token");
-  //       console.log("Token LocalStorage", token)
-
-  //       if (!token) {
-  //         setIsAuthenticated(false);
-  //         setLoading(false);
-  //         return setUser(null);
-  //       }
-
-  //       const response = await profileRequest(token);
-
-  //       if (!response.data) {
-  //         setIsAuthenticated(false);
-  //         setLoading(false);
-  //         return;
-  //       }
-
-  //       setIsAuthenticated(true);
-  //       setUser(response.data);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       setIsAuthenticated(false);
-  //       setUser(null);
-  //       setLoading(false);
-  //     }
-  //   }
-  //   checkLogin();
-  // }, []);
 
 
   /** Si hay errores, seteamos un timeout para que desaparezcan */
