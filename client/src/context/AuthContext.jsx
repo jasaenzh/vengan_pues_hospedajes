@@ -99,6 +99,7 @@ export const AuthProvider = ({ children }) => {
     async function checkLogin() {
       try {
         const token = localStorage.getItem("token");
+        console.log("Token LocalStorage", token)
 
         if (!token) {
           setIsAuthenticated(false);
