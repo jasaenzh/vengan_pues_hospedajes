@@ -121,6 +121,7 @@ export const AuthProvider = ({ children }) => {
     console.log("Paso por aquí UseEffect")
     async function checkLogin() {
       console.log("Paso por aquí checkLogin")
+      console.log("USER:", user)
       const token = Cookies.get('token');
       console.log("Este es el Token", token)
 
