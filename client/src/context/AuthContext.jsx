@@ -89,6 +89,7 @@ export const AuthProvider = ({ children }) => {
   const singIn = async (user) => {
     try {
       const response = await loginRequest(user);
+      console.log("Respuesta SingIn", response.data)
       setUser(response.data);
       setIsAuthenticated(true);
 
@@ -120,9 +121,7 @@ export const AuthProvider = ({ children }) => {
 
   /** Si hay un usuario logeado, seteamos la cookie  */
   useEffect(() => {
-    console.log("Paso por aquí UseEffect")
     async function checkLogin() {
-      console.log("Paso por aquí checkLogin")
       console.log("USER:", user)
       const token = user.token;
       // const token = Cookies.get('token');
