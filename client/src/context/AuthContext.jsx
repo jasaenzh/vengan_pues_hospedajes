@@ -75,8 +75,10 @@ export const AuthProvider = ({ children }) => {
   // Contexto para iniciar sesión
   const singIn = async (user) => {
     try {
-      const response = await loginRequest(user)
-      console.log("Respuesta SingIn", response)
+      const response = await loginRequest(user);
+      console.log("Respuesta SingIn", response);
+      const token = response.data.token; // Asegúrate de obtener el token correctamente desde la respuesta
+      localStorage.setItem("token", token); // Guarda el token en localStorage
       setUser(response.data);
       setIsAuthenticated(true);
     } catch (error) {
