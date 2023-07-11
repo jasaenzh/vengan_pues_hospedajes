@@ -12,6 +12,11 @@ function Login() {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const token = Cookies.get('token');
+    console.log("Token:", token);
+  }, []);
+
   const onSignIn = handleSubmit(async (values) => {
     await singIn(values);
   })
@@ -23,10 +28,7 @@ function Login() {
     }
   }, [isAuthenticated, navigate])
 
-  useEffect(() => {
-    const token = Cookies.get('token');
-    console.log("Token:", token);
-  }, []);
+
 
   return (
     <div className="bg-grey-lighter min-h-screen flex flex-col">
