@@ -48,7 +48,7 @@ function Navbar() {
 
 
   return (
-    <div className='bg-white shadow-md w-full top-0 left-0 z-10 my-3 rounded-2xl'>
+    <nav className='fixed w-full z-30 top-0 bg-white shadow-md left-0 py-2'>
       <div className='md:flex justify-between items-center bg-white py-4 px-4 md:px-8 '>
 
         {/* Logo y titulo  de la pagina */}
@@ -71,18 +71,20 @@ function Navbar() {
             ))
           }
 
+
           {
             isAuthenticated ? (<Link to="/" onClick={() => { singOut() }}>
-              <button className={`md:ml-5 md:text-sm md:my-0 ${open ? 'text-lg' : 'text-xl'} text-gray-800 hover:text-green-400 duration-500`}>Cerrar Sesión</button>
+              <button className={`mx-auto lg:mx-3 hover:no-underline bg-green-500 font-bold rounded-full py-4 px-8 shadow opacity-75 focus:outline-none focus:shadow-transparent transform hover:scale-105 ease-in-out md:ml-5 md:text-sm md:my-0 ${open ? 'text-lg' : 'text-xl'} text-white hover:text-slate-50 hover:bg-green-700 duration-500`}>Cerrar Sesión</button>
+              {/*  w-full text-center py-3 rounded bg-green-500 text-white hover:bg-green-700 focus:outline-none my-1*/}
             </Link>) : (<Link to="/iniciar-sesion">
-              <button className={`md:ml-5 md:text-sm md:my-0 ${open ? 'text-lg' : 'text-xl'} text-gray-800 hover:text-green-400 duration-500`}>Iniciar Sesión</button>
+              <button className={`mx-auto lg:mx-3 hover:no-underline bg-green-500 font-bold rounded-full py-4 px-8 shadow opacity-75 focus:outline-none focus:shadow-transparent transform hover:scale-105 ease-in-out md:ml-5 md:text-sm md:my-0 ${open ? 'text-lg' : 'text-xl'} text-white hover:text-slate-50 hover:bg-green-700 duration-500`}>Iniciar Sesión</button>
             </Link>)
           }
 
         </ul>
 
       </div>
-    </div>
+    </nav>
   )
 }
 
