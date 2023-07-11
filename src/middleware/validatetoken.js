@@ -9,6 +9,8 @@ export const authRequired = (req, res, next) => {
 
   console.log("req.cookies", req.cookies)
 
+  console.log("req.headers", req.headers)
+
   console.log("Token de authRequired", token)
 
   // Si no hay token, retorno un error

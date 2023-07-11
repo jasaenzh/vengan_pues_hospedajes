@@ -8,6 +8,6 @@ export const loginRequest = (user) => axios.post(`/login`, user)
 
 export const profileRequest = (token) => axios.get(`/profile`, {
   headers: {
-    Authorization: `Bearer ${token}` // Agrega el token de autenticación en los encabezados
+    Authorization: `Bearer ${token}`
   }
 });
