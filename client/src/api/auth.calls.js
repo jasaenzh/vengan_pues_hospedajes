@@ -6,4 +6,8 @@ export const verifyEmailRequest = (emailVerificationCode) => axios.post(`/verify
 
 export const loginRequest = (user) => axios.post(`/login`, user)
 
-export const profileRequest = () => axios.get(`/profile`)
+export const profileRequest = (token) => axios.get(`/profile`, {
+  headers: {
+    Authorization: `Bearer ${token}` // Agrega el token de autenticación en los encabezados
+  }
+});
