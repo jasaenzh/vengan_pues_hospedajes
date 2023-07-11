@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form"
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom"
 import { useEffect } from "react";
+import Cookies from 'js-cookie';
 
 function Login() {
 
@@ -21,6 +22,11 @@ function Login() {
       navigate("/");
     }
   }, [isAuthenticated, navigate])
+
+  useEffect(() => {
+    const token = Cookies.get('token');
+    console.log("Token:", token);
+  }, []);
 
   return (
     <div className="bg-grey-lighter min-h-screen flex flex-col">
