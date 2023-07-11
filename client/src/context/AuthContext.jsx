@@ -84,13 +84,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     async function checkLogin() {
 
-
-      // console.log("USER:", user.token)
-
-
-      const token = user.token
-      // const token = Cookies.get('token');
-
+      const token = Cookies.get('token');
 
       console.log("Este es el Token", token)
 
@@ -134,7 +128,7 @@ export const AuthProvider = ({ children }) => {
       }
     }
     checkLogin();
-  }, [user]);
+  }, []);
 
 
   /** Si hay errores, seteamos un timeout para que desaparezcan */
