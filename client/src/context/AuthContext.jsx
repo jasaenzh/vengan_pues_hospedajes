@@ -85,10 +85,10 @@ export const AuthProvider = ({ children }) => {
     async function checkLogin() {
 
 
-      console.log("USER:", user.token)
+      // console.log("USER:", user.token)
 
 
-      const token = Cookies.get('token');
+      const token = user.token
       // const token = Cookies.get('token');
 
 
