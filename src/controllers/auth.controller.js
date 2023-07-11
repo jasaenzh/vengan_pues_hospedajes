@@ -126,14 +126,17 @@ export const loginUser = async (req, res) => {
 
     /** Devuelvo el usuario guardado solo con los campos que indico */
     return res.status(200).json({
-      id: findUser._id,
-      username: findUser.username,
-      email: findUser.email,
-      fullName: findUser.fullName,
-      createdAt: findUser.createdAt,
-      updatedAt: findUser.updatedAt,
-      emailVerified: findUser.emailVerified,
-      permissions: findUser.permissions,
+      token,
+      user: {
+        id: findUser._id,
+        username: findUser.username,
+        email: findUser.email,
+        fullName: findUser.fullName,
+        createdAt: findUser.createdAt,
+        updatedAt: findUser.updatedAt,
+        emailVerified: findUser.emailVerified,
+        permissions: findUser.permissions,
+      }
     })
 
   } catch (error) {
