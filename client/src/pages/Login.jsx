@@ -12,11 +12,6 @@ function Login() {
 
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const token = Cookies.get('token');
-  //   console.log("Token:", token);
-  // }, []);
-
   const onSignIn = handleSubmit(async (values) => {
     await singIn(values);
   })

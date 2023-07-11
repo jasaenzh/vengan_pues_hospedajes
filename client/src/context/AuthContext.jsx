@@ -65,6 +65,7 @@ export const AuthProvider = ({ children }) => {
       console.log("Respuesta SingIn", response.data)
       setUser(response.data);
       setIsAuthenticated(true);
+      Cookies.set('token', response.data.token);
     } catch (error) {
       setErrorsAuth(error.response.data);
     }
