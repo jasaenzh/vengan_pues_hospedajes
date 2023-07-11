@@ -76,6 +76,7 @@ export const AuthProvider = ({ children }) => {
   const singIn = async (user) => {
     try {
       const response = await loginRequest(user);
+      console.log("CLG RESP:", response.data)
       const token = response.data.token;
       Cookies.set('token', token, {
         domain: 'vengan-pues-hospedajes.vercel.app',
