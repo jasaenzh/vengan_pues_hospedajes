@@ -116,8 +116,12 @@ export const loginUser = async (req, res) => {
     /** Creo el token pasandole el id del usuario  */
     const token = await generateToken({ id: findUser._id })
 
+
     /** Guardo el token en la cookie */
-    res.cookie('token', token)
+    res.cookie('token', token, {
+      domain: 'vengan-pues-hospedajes.vercel.app',
+      path: "/",
+    })
 
     /** Devuelvo el usuario guardado solo con los campos que indico */
     return res.status(200).json({
