@@ -124,7 +124,7 @@ export const loginUser = async (req, res) => {
       path: '/',
       httpOnly: true,
       secure: true,
-      sameSite: 'strict'
+      sameSite: 'none'
     })
 
     /** Devuelvo el usuario guardado solo con los campos que indico */
