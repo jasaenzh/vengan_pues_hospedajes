@@ -96,38 +96,24 @@ export const AuthProvider = ({ children }) => {
 
   /** Si hay un usuario logeado, seteamos la cookie  */
   useEffect(() => {
-    console.log("Paso por aquí UseEffect")
     async function checkLogin() {
-      console.log("Paso por aquí checkLogin")
-      const token = Cookies.get('token');
-      console.log("Este es el Token", token)
-
-      /** Comprueba si hay un token en la cookie */
-      if (!token) {
-        console.log("No hay token")
-        setIsAuthenticated(false);
-        setLoading(false);
-        return setUser(null);
-      }
-
-      console.log("Esta a punto de ingresar al try")
-
-      /** Si hay un token, verifica que sea válido en el backend  */
       try {
-        // Envía el token al backend para verificar su validez
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          setIsAuthenticated(false);
+          setLoading(false);
+          return setUser(null);
+        }
+
         const response = await profileRequest(token);
 
-        console.log("response de ProfileRequest", response)
-
-        // Si no hay nada en la respuesta, es porque el token no es válido
         if (!response.data) {
-          console.log("No hay nada en la respuesta", response)
           setIsAuthenticated(false);
           setLoading(false);
           return;
         }
 
-        // Si hay algo en la respuesta, es porque el token es válido, actualiza los estados
         setIsAuthenticated(true);
         setUser(response.data);
         setLoading(false);
@@ -139,6 +125,52 @@ export const AuthProvider = ({ children }) => {
     }
     checkLogin();
   }, []);
+
+
+  // useEffect(() => {
+  //   console.log("Paso por aquí UseEffect")
+  //   async function checkLogin() {
+  //     console.log("Paso por aquí checkLogin")
+  //     const token = Cookies.get('token');
+  //     console.log("Este es el Token", token)
+
+  //     /** Comprueba si hay un token en la cookie */
+  //     if (!token) {
+  //       console.log("No hay token")
+  //       setIsAuthenticated(false);
+  //       setLoading(false);
+  //       return setUser(null);
+  //     }
+
+  //     console.log("Esta a punto de ingresar al try")
+
+  //     /** Si hay un token, verifica que sea válido en el backend  */
+  //     try {
+  //       // Envía el token al backend para verificar su validez
+  //       const response = await profileRequest(token);
+
+  //       console.log("response de ProfileRequest", response)
+
+  //       // Si no hay nada en la respuesta, es porque el token no es válido
+  //       if (!response.data) {
+  //         console.log("No hay nada en la respuesta", response)
+  //         setIsAuthenticated(false);
+  //         setLoading(false);
+  //         return;
+  //       }
+
+  //       // Si hay algo en la respuesta, es porque el token es válido, actualiza los estados
+  //       setIsAuthenticated(true);
+  //       setUser(response.data);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       setIsAuthenticated(false);
+  //       setUser(null);
+  //       setLoading(false);
+  //     }
+  //   }
+  //   checkLogin();
+  // }, []);
 
 
   /** Si hay errores, seteamos un timeout para que desaparezcan */
