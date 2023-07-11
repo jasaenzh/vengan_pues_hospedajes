@@ -122,7 +122,8 @@ export const AuthProvider = ({ children }) => {
     async function checkLogin() {
       console.log("Paso por aquí checkLogin")
       console.log("USER:", user)
-      const token = Cookies.get('token');
+      const token = user.token;
+      // const token = Cookies.get('token');
       console.log("Este es el Token", token)
 
       /** Comprueba si hay un token en la cookie */
