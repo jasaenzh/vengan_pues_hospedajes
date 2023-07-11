@@ -75,14 +75,31 @@ export const AuthProvider = ({ children }) => {
   // Contexto para iniciar sesión
   const singIn = async (user) => {
     try {
-      const response = await loginRequest(user)
-      console.log("Respuesta SingIn", response)
+      const response = await loginRequest(user);
+      const token = response.data.token;
+      Cookies.set('token', token, {
+        domain: 'vengan-pues-hospedajes.vercel.app',
+        path: '/',
+        secure: true,
+        sameSite: 'none'
+      });
       setUser(response.data);
       setIsAuthenticated(true);
     } catch (error) {
       setErrorsAuth(error.response.data);
     }
-  }
+  };
+
+  // const singIn = async (user) => {
+  //   try {
+  //     const response = await loginRequest(user)
+  //     console.log("Respuesta SingIn", response)
+  //     setUser(response.data);
+  //     setIsAuthenticated(true);
+  //   } catch (error) {
+  //     setErrorsAuth(error.response.data);
+  //   }
+  // }
 
   // Contexto para cerrar sesión
   const singOut = () => {
