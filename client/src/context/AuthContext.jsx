@@ -23,6 +23,8 @@ export const AuthProvider = ({ children }) => {
   // Creo el estado Usuario
   const [user, setUser] = useState(null);
 
+  const [token, setToken] = useState(null);
+
   // Creo el estado autenticado
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -64,6 +66,7 @@ export const AuthProvider = ({ children }) => {
       const response = await loginRequest(user)
       console.log("Respuesta SingIn", response.data)
       setUser(response.data);
+      setToken(response.data.token);
       setIsAuthenticated(true);
     } catch (error) {
       setErrorsAuth(error.response.data);
@@ -83,10 +86,16 @@ export const AuthProvider = ({ children }) => {
   // /** Si hay un usuario logeado, seteamos la cookie  */
   useEffect(() => {
     async function checkLogin() {
-      console.log("USER:", user)
-      const token = Cookies.get('token');
+
+
+      // console.log("USER:", user)
+
+
       // const token = Cookies.get('token');
-      console.log("Este es el Token", token)
+      // // const token = Cookies.get('token');
+
+
+      // console.log("Este es el Token", token)
 
       /** Comprueba si hay un token en la cookie */
       if (!token) {
