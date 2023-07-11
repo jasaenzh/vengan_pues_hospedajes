@@ -161,7 +161,7 @@ export const AuthProvider = ({ children }) => {
       }
     }
     checkLogin();
-  }, []);
+  }, [user]);
 
 
   // useEffect(() => {
