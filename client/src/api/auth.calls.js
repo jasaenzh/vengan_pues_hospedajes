@@ -6,6 +6,7 @@ export const verifyEmailRequest = (emailVerificationCode) => axios.post(`/verify
 
 export const loginRequest = (user) => axios.post(`/login`, user, {
   withCredentials: true,
+  credentials: "include",
   headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
 })
 
