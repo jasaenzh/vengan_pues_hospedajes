@@ -120,7 +120,7 @@ export const loginUser = async (req, res) => {
 
     /** Guardo el token en la cookie *///
     res.cookie('token', token, {
-      domain: 'vengan-pues-hospedajes.pages.dev',
+      domain: 'vengan-pues-hospedajes.vercel.app',
       path: '/',
       httpOnly: true,
       secure: true,
