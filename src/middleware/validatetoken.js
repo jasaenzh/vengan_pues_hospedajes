@@ -7,6 +7,8 @@ export const authRequired = (req, res, next) => {
   // Primero leo el token
   const { token } = req.cookies;
 
+  console.log("Token de authRequired", token)
+
   // Si no hay token, retorno un error
   if (!token) return res.status(401).json(['No autorizado'])
 

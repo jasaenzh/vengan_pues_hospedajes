@@ -136,6 +136,8 @@ export const AuthProvider = ({ children }) => {
         return setUser(null);
       }
 
+      console.log("Ingresando a tryCatch")
+
       try {
         const response = await profileRequest(token);
 
