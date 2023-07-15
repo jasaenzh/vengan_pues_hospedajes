@@ -1,6 +1,7 @@
 import { createContext, useContext } from "react";
 import { useState } from 'react';
 import { createApartmentRequest, getApartmentsRequest } from "../api/apartment.calls";
+import Cookies from 'js-cookie'
 
 // Creo el contexto
 export const ApartmentContext = createContext();
@@ -20,15 +21,33 @@ export const ApartmentProvider = ({ children }) => {
   // Creo el estado de errores
   const [errorsApartment, setErrorsApartment] = useState([]);
 
+  const [token, setToken] = useState(null);
+
+
   // Crear apartamento
   const createApartment = async (dataApartment) => {
     try {
       const response = await createApartmentRequest(dataApartment)
-      console.log(response);
+      const token = response.data.token;
+      setToken(token); // Almacenar el token en el estado
+      Cookies.set('token', token);
+      return response
     } catch (error) {
+      console.log(error)
       setErrorsApartment(error.response.data);
     }
   }
+  // const createApartment = async (dataApartment) => {
+  //   console.log(dataApartment)
+
+  //   try {
+  //     const response = await createApartmentRequest(dataApartment)
+  //     return response
+  //   } catch (error) {
+  //     console.log(error)
+  //     setErrorsApartment(error.response.data);
+  //   }
+  // }
 
   const getApartments = async () => {
     try {
@@ -45,7 +64,8 @@ export const ApartmentProvider = ({ children }) => {
       errorsApartment,
       apartments,
       createApartment,
-      getApartments
+      getApartments,
+      token,
     }}>
       {children}
     </ApartmentContext.Provider>

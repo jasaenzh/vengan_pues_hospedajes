@@ -17,12 +17,12 @@ function AdminApartment() {
 
   return (
     <div>
-      <h1 className="text-center">AdminApartment</h1>
+      <h1 className="text-center text-2xl font-bold">Administrar apartamentos</h1>
       <div className="flex justify-end gap-5">
-        <Link to="/admin-apartamentos/crear-apartamento">Crear Apartamento</Link>
+        <Link to="/admin-apartamentos/crear-apartamento" className='bg-[#206D53] hover:bg-[#1E5A41] px-2 py-2 rounded-md my-2 hover:no-underline text-white'>Crear apartamento</Link>
       </div>
 
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
 
         {apartments.length === 0 ? (
           <p>No hay apartamentos</p>

@@ -3,6 +3,7 @@ import { registerUser, loginUser, verifyUser, profileUser, logoutUser, updateUse
 import { authRequired } from "../middleware/validatetoken.js";
 import { validateSchemaMiddleware } from "../middleware/schemaValidator.js";
 import { loginUserSchema, registerUserSchema } from "../schemas/auth.schemas.js";
+import { authRequiredProfile } from "../middleware/validateProfile.js";
 
 const router = Router();
 
@@ -15,6 +16,7 @@ router.post("/verify-email", verifyUser)
 
 /** Metodos get */
 router.get('/profile', authRequired, profileUser)
+// router.get('/profile', authRequiredProfile, profileUser)
 
 /** Metodos put */
 router.put('/update', authRequired, updateUser)

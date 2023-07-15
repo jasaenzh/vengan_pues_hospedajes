@@ -4,7 +4,7 @@ import Carousel from '../components/Carousel';
 // <video src={ruta} alt={`Video` autoPlay muted loop} />
 function ApartmentCard({ apartment }) {
   return (
-    <div className='bg-slate-300 px-6 py-4 rounded shadow-2xl'>
+    <div className='bg-[#E3AE40] px-6 py-4 rounded shadow-2xl'>
 
       <Carousel autoSlide={true} autoSlideInterval={5000}>
         {
@@ -14,155 +14,158 @@ function ApartmentCard({ apartment }) {
         }
       </Carousel>
 
-      <div>
-        <div>
-          <label>Numero de Apartamento: </label>
-          <span>{apartment.apartmentNumber}</span>
-        </div>
+      <div className='grid grid-cols-2 col-gap-1'>
 
-        <div>
-          <label>Locación: </label>
-          <span>{apartment.location}</span>
-        </div>
+        {/* Numero de apartamento  */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Numero de Apartamento </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.apartmentNumber}</span>
 
-        <div>
-          <label>Area: </label>
-          <span>{apartment.squareMeter} m2</span>
-        </div>
 
-        <div>
-          <label>Precio: </label>
-          <span>{apartment.price} $</span>
-        </div>
+        {/* Ubicacion */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Locación </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.location}</span>
 
-        <div>
-          <label>Duplex: </label>
-          <span>{apartment.duplex ? 'Si' : 'No'}</span>
-        </div>
 
-        <div>
-          <label>Habitaciones: </label>
-          <span>{apartment.bedrooms}</span>
-        </div>
+        {/* Area */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Area </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.squareMeter} m2</span>
 
-        <div>
-          <label>Camas dobles: </label>
-          <span>{apartment.doubleBeds}</span>
-        </div>
 
-        <div>
-          <label>Camas sencillas: </label>
-          <span>{apartment.singleBeds}</span>
-        </div>
+        {/* Precio */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Precio </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>$ {apartment.price}</span>
 
-        <div>
-          <label>Camas tipo nido: </label>
-          <span>{apartment.trundleBed}</span>
-        </div>
 
-        <div>
-          <label>Baños: </label>
-          <span>{apartment.bathrooms}</span>
-        </div>
+        {/* Camas duplex */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Duplex </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.duplex ? 'Si' : 'No'}</span>
 
-        <div>
-          <label>Agua caliente: </label>
-          <span>{apartment.hotWater ? 'Si' : 'No'}</span>
-        </div>
 
-        <div>
-          <label>Secador de cabello: </label>
-          <span>{apartment.hairdryer}</span>
-        </div>
+        {/* Numero de habitaciones  */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Habitaciones </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.bedrooms}</span>
 
-        <div>
-          <label>Sala de estar: </label>
-          <span>{apartment.livingRoom ? 'Si' : 'No'}</span>
-        </div>
 
-        <div>
-          <label>Comedor: </label>
-          <span>{apartment.diningRoom}</span>
-        </div>
+        {/* Camas dobles */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Camas dobles </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.doubleBeds}</span>
 
-        <div>
-          <label>Sofa cama: </label>
-          <span>{apartment.sofaBed}</span>
-        </div>
 
-        <div>
-          <label>Televisor: </label>
-          <span>{apartment.tv}</span>
-        </div>
+        {/* Camas sencillas  */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Camas sencillas </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.singleBeds}</span>
 
-        <div>
-          <label>Internet: </label>
-          <span>{apartment.internet ? 'Si' : 'No'}</span>
-        </div>
 
-        <div>
-          <label>Cocina: </label>
-          <span>{apartment.kitchen ? 'Si' : 'No'}</span>
-        </div>
+        {/* Camas tipo nido  */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Camas tipo nido </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.trundleBed}</span>
 
-        <div>
-          <label>Nevera: </label>
-          <span>{apartment.fridge ? 'Si' : 'No'}</span>
-        </div>
 
-        <div>
-          <label>Lavadora: </label>
-          <span>{apartment.washingMachine ? 'Si' : 'No'}</span>
-        </div>
+        {/* Numero de baños   */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Baños </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.bathrooms}</span>
 
-        <div>
-          <label>Microondas: </label>
-          <span>{apartment.microwave ? 'Si' : 'No'}</span>
-        </div>
 
-        <div>
-          <label>Cafetera: </label>
-          <span>{apartment.coffeeMaker ? 'Si' : 'No'}</span>
-        </div>
+        {/* Agua caliente */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Agua caliente: </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.hotWater ? 'Si' : 'No'}</span>
 
-        <div>
-          <label>Licuadora: </label>
-          <span>{apartment.dishwasher ? 'Si' : 'No'}</span>
-        </div>
 
-        <div>
-          <label>Tostadora de pan: </label>
-          <span>{apartment.breadToaster ? 'Si' : 'No'}</span>
-        </div>
+        {/* Secador de cabello  */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Secador de cabello: </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.hairdryer}</span>
 
-        <div>
-          <label>Olla de presion: </label>
-          <span>{apartment.pressureCooker ? 'Si' : 'No'}</span>
-        </div>
 
-        <div>
-          <label>Olla arrocera: </label>
-          <span>{apartment.riceCooker ? 'Si' : 'No'}</span>
-        </div>
+        {/* Sala de estar */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Sala de estar: </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.livingRoom ? 'Si' : 'No'}</span>
 
-        <div>
-          <label>Sanduchera: </label>
-          <span>{apartment.grill ? 'Si' : 'No'}</span>
-        </div>
 
-        <div>
-          <label>Camaras de seguridad: </label>
-          <span>{apartment.securityCameras ? 'Si' : 'No'}</span>
-        </div>
+        {/* Comedor */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Comedor: </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.diningRoom}</span>
 
-        <div>
-          <label>Terraza con vista: </label>
-          <span>{apartment.terraceWithView ? 'Si' : 'No'}</span>
-        </div>
+
+        {/* Sofa cama */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Sofa cama: </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.sofaBed}</span>
+
+
+        {/* Televisor */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Televisor: </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.tv}</span>
+
+
+        {/* Internet  */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Internet: </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.internet ? 'Si' : 'No'}</span>
+
+
+        {/* Cocina */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Cocina: </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.kitchen ? 'Si' : 'No'}</span>
+
+
+        {/* Nevera */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Nevera: </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.fridge ? 'Si' : 'No'}</span>
+
+
+        {/* Lavadora */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Lavadora: </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.washingMachine ? 'Si' : 'No'}</span>
+
+
+        {/* Microondas  */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Microondas: </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.microwave ? 'Si' : 'No'}</span>
+
+
+        {/* Cafetera */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Cafetera: </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.coffeeMaker ? 'Si' : 'No'}</span>
+
+
+        {/* Licuadora */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Licuadora: </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.dishwasher ? 'Si' : 'No'}</span>
+
+
+        {/* Tostadora de pan */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Tostadora de pan: </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.breadToaster ? 'Si' : 'No'}</span>
+
+
+        {/* Olla de presion */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Olla de presión: </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.pressureCooker ? 'Si' : 'No'}</span>
+
+
+        {/* Olla arrocera */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Olla arrocera: </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.riceCooker ? 'Si' : 'No'}</span>
+
+
+        {/* Sanduchera */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Sanduchera: </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.grill ? 'Si' : 'No'}</span>
+
+
+        {/* Camaras de seguridad */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Camaras de seguridad: </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.securityCameras ? 'Si' : 'No'}</span>
+
+
+        {/* Terraza con vista */}
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>Terraza con vista: </span>
+        <span className='text-xs sm:text-sm md:text-base lg:text-lg'>{apartment.terraceWithView ? 'Si' : 'No'}</span>
+
+
       </div>
 
-      <div className='flex justify-center'>
-        <button className='bg-blue-500 mt-4 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Editar</button>
+      <div className='grid grid-cols-2 gap-2 mb-2'>
+        <button className='bg-[#EF6B71] mt-4 hover:bg-[#f59196] text-white font-bold py-2 px-4 rounded'>Eliminar</button>
+        <button className='bg-[#6E3D1F] mt-4 hover:bg-[#856d5e] text-white font-bold py-2 px-4 rounded'>Editar</button>
       </div>
 
 

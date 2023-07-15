@@ -145,6 +145,8 @@ export const loginUser = async (req, res) => {
 /** Perfil de usuario   */
 export const profileUser = async (req, res) => {
 
+  const token = req.cookies.token
+
   // Id del usuario que esta logueado
   const id = req.user.id
 
@@ -156,8 +158,15 @@ export const profileUser = async (req, res) => {
     // Si no encuentro el usuario devuelvo un error
     if (!findUser) return res.status(400).json(['El usuario no existe'])
 
+    res.cookie('token', token, {
+      domain: 'vengan-pues-hospedajes.vercel.app',
+      path: '/'
+    })
+
+
     // Si existe devuelvo los datos
     res.status(200).json({
+      token,
       id: findUser._id,
       username: findUser.username,
       email: findUser.email,
@@ -194,8 +203,6 @@ export const updateUser = async (req, res) => {
   } catch (error) {
     return res.status(500).json(error)
   }
-
-  res.status(200).json("Estas en la ruta de actualizar usuario")
 
 }
 

@@ -74,10 +74,10 @@ function Navbar() {
 
           {
             isAuthenticated ? (<Link to="/" onClick={() => { singOut() }}>
-              <button className={`mx-auto lg:mx-3 hover:no-underline bg-green-500 font-bold rounded-full py-4 px-8 shadow opacity-75 focus:outline-none focus:shadow-transparent transform hover:scale-105 ease-in-out md:ml-5 md:text-sm md:my-0 ${open ? 'text-lg' : 'text-xl'} text-white hover:text-slate-50 hover:bg-green-700 duration-500`}>Cerrar Sesión</button>
+              <button className={`mx-auto lg:mx-3 hover:no-underline bg-green-500 font-bold rounded-full py-3 px-6 shadow opacity-75 focus:outline-none focus:shadow-transparent transform hover:scale-105 ease-in-out md:ml-5 md:text-sm md:my-0 ${open ? 'text-lg' : 'text-xl'} text-white hover:text-slate-50 hover:bg-green-700 duration-500`}>Cerrar Sesión</button>
               {/*  w-full text-center py-3 rounded bg-green-500 text-white hover:bg-green-700 focus:outline-none my-1*/}
             </Link>) : (<Link to="/iniciar-sesion">
-              <button className={`mx-auto lg:mx-3 hover:no-underline bg-green-500 font-bold rounded-full py-4 px-8 shadow opacity-75 focus:outline-none focus:shadow-transparent transform hover:scale-105 ease-in-out md:ml-5 md:text-sm md:my-0 ${open ? 'text-lg' : 'text-xl'} text-white hover:text-slate-50 hover:bg-green-700 duration-500`}>Iniciar Sesión</button>
+              <button className={`mx-auto lg:mx-3 hover:no-underline bg-green-500 font-bold rounded-full py-3 px-6 shadow opacity-75 focus:outline-none focus:shadow-transparent transform hover:scale-105 ease-in-out md:ml-5 md:text-sm md:my-0 ${open ? 'text-lg' : 'text-xl'} text-white hover:text-slate-50 hover:bg-green-700 duration-500`}>Iniciar Sesión</button>
             </Link>)
           }
 
