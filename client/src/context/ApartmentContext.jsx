@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { useState } from 'react';
 import { createApartmentRequest, getApartmentsRequest } from "../api/apartment.calls";
 import Cookies from 'js-cookie'
@@ -22,34 +22,20 @@ export const ApartmentProvider = ({ children }) => {
   const [errorsApartment, setErrorsApartment] = useState([]);
 
 
-
   // Crear apartamento
   const createApartment = async (dataApartment, tokenHeader) => {
-    console.log(tokenHeader)
     try {
       const response = await createApartmentRequest(dataApartment)
       // const token = response.data.token
       Cookies.set('token', tokenHeader);
       return response
     } catch (error) {
-      console.log(error)
       // setErrorsApartment(error.response.data);
-      console.log(error);
       const errorMessage = Array.isArray(error.response.data) ? error.response.data : [error.response.data];
       setErrorsApartment(errorMessage);
+      return error.response
     }
   }
-  // const createApartment = async (dataApartment) => {
-  //   console.log(dataApartment)
-
-  //   try {
-  //     const response = await createApartmentRequest(dataApartment)
-  //     return response
-  //   } catch (error) {
-  //     console.log(error)
-  //     setErrorsApartment(error.response.data);
-  //   }
-  // }
 
   const getApartments = async () => {
     try {
@@ -59,6 +45,16 @@ export const ApartmentProvider = ({ children }) => {
       setErrorsApartment(error.response.data);
     }
   }
+
+  /** Si hay errores, seteamos un timeout para que desaparezcan */
+  useEffect(() => {
+    if (errorsApartment.length > 0) {
+      const timer = setTimeout(() => {
+        setErrorsApartment([])
+      }, 5000);
+      return () => clearTimeout(timer)
+    }
+  }, [errorsApartment])
 
   return (
     <ApartmentContext.Provider value={{

@@ -5,13 +5,7 @@ const { JWT_SECRET } = enviroment
 
 export const authRequired = (req, res, next) => {
 
-  const authorization = req.headers.cookie
-
-  console.log("Cookes:", authorization)
-
   const authorizationHeader = req.headers.authorization;
-
-  console.log("Headers:", authorizationHeader)
 
   const token = authorizationHeader.split(' ')[1];
 

@@ -1,7 +1,6 @@
 import User from "../models/User.model.js"
 
 export const adminProfile = (req, res, next) => {
-  console.log("USER", req.user)
   const { id } = req.user;
   // Busco el usuario por su id
   const findUser = User.findById(id);

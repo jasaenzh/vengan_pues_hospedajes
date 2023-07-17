@@ -4,7 +4,7 @@ export const createApartmentSchema = z.object({
   apartmentNumber: z.string({
     required_error: "Numero del apartamento es requerido",
   }).refine((value) => value.trim() !== "", {
-    message: "El campo no no puede estar vacio"
+    message: "El campo numero de apartamento no puede estar vacio"
   }).transform((value) => value.trim()),
   location: z.string({
     required_error: "La Ubicacion es requerida",

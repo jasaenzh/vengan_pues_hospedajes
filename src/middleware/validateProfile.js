@@ -17,10 +17,8 @@ export const authRequiredProfile = (req, res, next) => {
     console.log("Token cookie", tokenCookie)
     if (tokenCookie !== undefined) {
       token = tokenCookie.split('=')[1];
-      console.log("Ingreso al if de token cookie", token)
     } else {
       token = authorizationHeader.split(' ')[1];
-      console.log("Ingreso al else de token cookie", token)
     }
   }
 

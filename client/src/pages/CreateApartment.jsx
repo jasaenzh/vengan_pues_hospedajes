@@ -54,23 +54,24 @@ function CreateApartment() {
       securityCameras: values.securityCameras === 'true' ? true : false,
       terraceWithView: values.terraceWithView === 'true' ? true : false,
     }
-
     const tokenHeader = getCookieValue("token");
-
-    await createApartment(data, tokenHeader)
-    navigate('/admin-apartamentos')
+    const response = await createApartment(data, tokenHeader)
+    console.log(response)
+    if (response && response.status === 200) {
+      navigate('/admin-apartamentos')
+    }
   })
 
   return (
-    <div>
+    <div className='flex justify-center'>
       {
         errorsApartment && errorsApartment.map((error, index) => (
-          <div key={index} className="text-red-500">
-            {error}
+          <div key={index} className="text-red-500 flex">
+            <span>{error}</span>
           </div>
         ))
       }
-      <div className='bg-[#E3AE40] mdm:max-w-xl sm:max-w-xl p-7 rounded-md'>
+      <div className='bg-[#E3AE40] sm:max-w-xl px-20 py-5 rounded-md'>
         <form onSubmit={onSubmitApartment}>
 
           <div className='grid grid-cols-2 sm:grid-cols-1 gap-1 sm:gap-1'>
