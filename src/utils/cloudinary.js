@@ -11,14 +11,11 @@ cloudinary.config({
   secure: true
 })
 
-/** Subir imagenes a Cloudinary */
+// SUBIR IMAGEN
 export async function uploadImage(filePath) {
-
-  // Metodo para subir imagenes a Cloudinary, le debemos de pasar una ruta
   return await cloudinary.uploader.upload(filePath, {
-    folder: 'vengan-pues'
+    folder: "vengan-pues"
   })
-
 }
 
 /** Eliminar imagenes de Cloudinary */

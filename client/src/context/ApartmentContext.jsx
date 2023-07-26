@@ -23,7 +23,7 @@ export const ApartmentProvider = ({ children }) => {
 
 
   // Crear apartamento
-  const createApartment = async (dataApartment, tokenHeader) => {
+  const createApartmentContext = async (dataApartment, tokenHeader) => {
     try {
       const response = await createApartmentRequest(dataApartment)
       // const token = response.data.token
@@ -61,7 +61,7 @@ export const ApartmentProvider = ({ children }) => {
       // Aca van las funciones y estados
       errorsApartment,
       apartments,
-      createApartment,
+      createApartmentContext,
       getApartments,
     }}>
       {children}

@@ -7,7 +7,6 @@ import fs from "fs-extra"
 /** Crear un apartamento  */
 export const createApartment = async (req, res) => {
 
-  // Si no existe, guardo el apartamento
   try {
 
     // Obtener el numero del apartamento del body
@@ -30,24 +29,26 @@ export const createApartment = async (req, res) => {
     // Creo una instancia del modelo Apartment
     const apartment = new Apartment(apartmentData);
 
-    if (req.files?.image) {
+    //Si existe una imagen, la guardo en cloudinary")
+    if (req.file.fieldname) {
 
-      const result = await uploadImage(req.files.image.tempFilePath)
+      const result = await uploadImage(req.file.path)
 
-      apartment.images.push({
-        secure_url: result.secure_url,
-        public_id: result.public_id
-      })
+      apartment.image = {
+        public_id: result.public_id,
+        secure_url: result.secure_url
+      }
 
-      await fs.unlink(req.files.image.tempFilePath)
+      await fs.unlink(req.file.path)
 
     }
 
     // Guardo el apartamento en la base de datos
     const apartamentSaved = await apartment.save()
 
-    // Devuelvo el apartamento guardado
+    //Devuelvo el apartamento guardado
     return res.status(200).json(apartamentSaved)
+    // return res.status(200).json(apartment)
   } catch (error) {
     return res.status(500).json(error)
   }

@@ -7,12 +7,14 @@ import { fileUploadMiddleware } from "../middleware/fileUploadCloudinary.js";
 import { validateSchemaMiddleware } from "../middleware/schemaValidator.js";
 import { createApartmentSchema } from "../schemas/apartment.schemas.js";
 import { authRequiredProfile } from "../middleware/validateProfile.js";
+import { upload } from "../middleware/multerMiddleware.js";
 
 const router = Router();
 
 /** Metodos post */
-router.post("/", validateSchemaMiddleware(createApartmentSchema), authRequired, adminProfile, fileUploadMiddleware, createApartment)
-// router.post("/", validateSchemaMiddleware(createApartmentSchema), authRequiredProfile, adminProfile, fileUploadMiddleware, createApartment)
+router.post("/", upload.single('image'), validateSchemaMiddleware(createApartmentSchema), authRequired, createApartment)
+// router.post("/", upload.single('image'), validateSchemaMiddleware(createApartmentSchema), authRequiredProfile, adminProfile, createApartment)
+// router.post("/", upload.single('image'), uploadImageMulter)
 router.post("/:id/images", fileUploadMiddleware, authRequired, adminProfile, addImageById)
 
 /** Metodos get */

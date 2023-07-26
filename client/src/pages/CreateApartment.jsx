@@ -9,7 +9,7 @@ function CreateApartment() {
 
   const navigate = useNavigate()
 
-  const { createApartment, errorsApartment } = useApartmentContext()
+  const { createApartmentContext, errorsApartment } = useApartmentContext()
 
   function getCookieValue(cookieName) {
     const cookies = document.cookie.split("; ");
@@ -53,10 +53,11 @@ function CreateApartment() {
       grill: values.grill === 'true' ? true : false,
       securityCameras: values.securityCameras === 'true' ? true : false,
       terraceWithView: values.terraceWithView === 'true' ? true : false,
+      image: values.image[0],
     }
+
     const tokenHeader = getCookieValue("token");
-    const response = await createApartment(data, tokenHeader)
-    console.log(response)
+    const response = await createApartmentContext(data, tokenHeader)
     if (response && response.status === 200) {
       navigate('/admin-apartamentos')
     }
@@ -72,9 +73,23 @@ function CreateApartment() {
         ))
       }
       <div className='bg-[#E3AE40] sm:max-w-xl px-20 py-5 rounded-md'>
-        <form onSubmit={onSubmitApartment}>
+        <form onSubmit={onSubmitApartment} encType="multipart/form-data">
 
           <div className='grid grid-cols-2 sm:grid-cols-1 gap-1 sm:gap-1'>
+
+            {/* Subir imagenes */}
+            <div className='grid grid-cols-1'>
+
+              <label htmlFor='image' className='block text-sm md:font-medium text-slate-100 sm:py-1 sm:px-2'>Imagen</label>
+              <input
+                type="file"
+                // name='image'
+                id='image'
+                // multiple
+                className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs md:text-sm py-2 px-2'
+                {...register('image')} />
+
+            </div>
 
             {/* Numero de apartamento */}
             <div className='grid grid-cols-1  sm:grid-cols-2 sm:cols-gap-1 sm:mb-2 items-center mt-2 sm:mt-0'>

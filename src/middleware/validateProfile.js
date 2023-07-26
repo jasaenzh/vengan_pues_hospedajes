@@ -5,6 +5,7 @@ const { JWT_SECRET } = enviroment
 
 export const authRequiredProfile = (req, res, next) => {
 
+
   const cookieHeader = req.headers.cookie;
 
   const authorizationHeader = req.headers.authorization;
@@ -14,7 +15,7 @@ export const authRequiredProfile = (req, res, next) => {
   if (cookieHeader) {
     const cookies = cookieHeader.split(';');
     const tokenCookie = cookies.find(cookie => cookie.trim().startsWith('token='));
-    console.log("Token cookie", tokenCookie)
+
     if (tokenCookie !== undefined) {
       token = tokenCookie.split('=')[1];
     } else {

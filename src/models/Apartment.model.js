@@ -150,18 +150,22 @@ const apartmentSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    images: [
-      {
-        public_id: {
-          type: String,
-          required: true,
-        },
-        secure_url: {
-          type: String,
-          required: true,
-        }
-      }
-    ],
+    image: {
+      public_id: String,
+      secure_url: String
+    },
+    // images: [
+    //   {
+    //     public_id: {
+    //       type: String,
+    //       required: true,
+    //     },
+    //     secure_url: {
+    //       type: String,
+    //       required: true,
+    //     }
+    //   }
+    // ],
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
