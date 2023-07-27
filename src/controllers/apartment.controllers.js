@@ -19,16 +19,16 @@ export const createApartment = async (req, res) => {
     // Obtener el numero del apartamento del body
     const apartmentNumber = req.body.apartmentNumber;
 
-    console.log("REQ.FILE ==> ", req.file)
-    console.log("REQ.FILES ==> ", req.files)
-    console.log("REQ.BODY ==> ", req.body)
+    // console.log("REQ.FILE ==> ", req.file)
+    // console.log("REQ.FILES ==> ", req.files)
+    // console.log("REQ.BODY ==> ", req.body)
 
     // Verifico que el apartamento no exista
     const apartamentExists = await Apartment.findOne({ apartmentNumber });
 
     // Si existe, devuelvo un error
     if (apartamentExists) {
-      return res.status(400).json({ message: "El apartamento ya existe" });
+      return res.status(400).json(["El apartamento ya existe"]);
     }
 
     // Obtengo los datos del body
@@ -45,7 +45,7 @@ export const createApartment = async (req, res) => {
 
     if (req.files) {  //TODO: Se utiliza si se sube varias imagenes
 
-      console.log("*********************INGRESO AL IF DE REQ.FILES *********************")
+      // console.log("*********************INGRESO AL IF DE REQ.FILES *********************")
 
       // const result = await uploadImage(req.files.path)
 
@@ -64,13 +64,13 @@ export const createApartment = async (req, res) => {
           secure_url: result.secure_url,
         });
 
-        await fs.unlink(file.path);
+        fs.unlinkSync(file.path);
       }
 
     }
 
-    console.log("========= OBJETO APARTMENT: =========")
-    console.log(apartment)
+    // console.log("========= OBJETO APARTMENT: =========")
+    // console.log(apartment)
 
     // Guardo el apartamento en la base de datos
     const apartamentSaved = await apartment.save()
@@ -100,7 +100,7 @@ export const getApartmentById = async (req, res) => {
   const { id } = req.params
   try {
     const getApartmentById = await Apartment.findById(id)
-    if (!getApartmentById) return res.status(404).json({ message: "No existe el apartamento" })
+    if (!getApartmentById) return res.status(404).json(["No existe el apartamento"])
     res.status(200).json(getApartmentById)
   } catch (error) {
     res.status(500).json({ message: `Error al obtener el apartamento` || error.message })
@@ -116,7 +116,7 @@ export const updateApartmentById = async (req, res) => {
     const body = req.body
 
     const apartment = await Apartment.findById(id)
-    if (!apartment) return res.status(404).json({ message: "No existe el apartamento" })
+    if (!apartment) return res.status(404).json(["No existe el apartamento"])
 
     // Verificar si se ha proporcionado una nueva imagen
     if (req.files?.image) {
@@ -156,10 +156,10 @@ export const deleteApartmentById = async (req, res) => {
 
     const deleteApartment = await Apartment.findByIdAndDelete(id)
 
-    if (!deleteApartment) return res.status(404).json({ message: "No existe el apartamento" })
+    if (!deleteApartment) return res.status(404).json(["No existe el apartamento"])
 
-    if (deleteApartment.images.length > 0) {
-      for (const image of deleteApartment.images) {
+    if (deleteApartment.image.length > 0) {
+      for (const image of deleteApartment.image) {
         await deleteImage(image.public_id);
       }
     }
@@ -180,7 +180,7 @@ export const deleteImageById = async (req, res) => {
 
     // Encuentra el apartamento por su id
     const apartment = await Apartment.findById(id);
-    if (!apartment) return res.status(404).json({ message: 'No se encontró el apartamento' });
+    if (!apartment) return res.status(404).json(['No se encontró el apartamento']);
 
     // Verifica si el índice de la imagen es válido
     if (imageIndex >= 0 && imageIndex < apartment.images.length) {
@@ -215,7 +215,7 @@ export const addImageById = async (req, res) => {
 
     // Encuentra el apartamento por su id
     const apartment = await Apartment.findById(id);
-    if (!apartment) return res.status(404).json({ message: 'No se encontró el apartamento' });
+    if (!apartment) return res.status(404).json(['No se encontró el apartamento']);
 
     // Verifica si se ha proporcionado una nueva imagen
     if (req.files?.image) {

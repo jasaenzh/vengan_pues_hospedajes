@@ -7,13 +7,16 @@ import ApartmentCard from "./ApartmentCard";
 
 function AdminApartment() {
 
-  const { getApartments, apartments } = useApartmentContext();
+  const { getApartments, apartments, deleteApartment } = useApartmentContext();
 
   useEffect(() => {
     getApartments();
   }, [])
 
-
+  const handleDeleteApartment = async (apartmentId) => {
+    await deleteApartment(apartmentId);
+    getApartments(); // Actualizar manualmente la lista de apartamentos después de borrar uno
+  };
 
   return (
     <div>
@@ -28,7 +31,7 @@ function AdminApartment() {
           <p>No hay apartamentos</p>
         ) : (
           apartments.map((apartment, index) => (
-            <ApartmentCard key={index} apartment={apartment} />
+            <ApartmentCard key={index} apartment={apartment} handleDeleteApartment={handleDeleteApartment} getApartments={getApartments} />
           ))
         )}
 

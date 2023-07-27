@@ -2,9 +2,28 @@ import Carousel from '../components/Carousel';
 
 // Aca se podria colocar un video
 // <video src={ruta} alt={`Video` autoPlay muted loop} />
-function ApartmentCard({ apartment }) {
+function ApartmentCard({ apartment, handleDeleteApartment }) {
+
+
   return (
     <div className='bg-[#E3AE40] px-6 py-4 rounded shadow-2xl'>
+
+      <div className='grid grid-cols-2 gap-2 mb-2'>
+        <button
+          className='bg-[#EF6B71] mt-4 hover:bg-[#f59196] text-white font-bold py-2 px-4 rounded'
+          onClick={() => {
+            const confirmation = window.confirm("¿Estás seguro de que deseas eliminar este apartamento?");
+
+            if (confirmation) {
+              handleDeleteApartment(apartment._id);
+            }
+
+          }}
+        >
+          Eliminar
+        </button>
+        <button className='bg-[#6E3D1F] mt-4 hover:bg-[#856d5e] text-white font-bold py-2 px-4 rounded'>Editar</button>
+      </div>
 
       <Carousel autoSlide={true} autoSlideInterval={5000}>
         {
@@ -163,10 +182,7 @@ function ApartmentCard({ apartment }) {
 
       </div>
 
-      <div className='grid grid-cols-2 gap-2 mb-2'>
-        <button className='bg-[#EF6B71] mt-4 hover:bg-[#f59196] text-white font-bold py-2 px-4 rounded'>Eliminar</button>
-        <button className='bg-[#6E3D1F] mt-4 hover:bg-[#856d5e] text-white font-bold py-2 px-4 rounded'>Editar</button>
-      </div>
+
 
 
 

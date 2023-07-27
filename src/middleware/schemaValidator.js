@@ -1,7 +1,7 @@
 /** Recibe un Schema y se hace la validacion de los datos de entrada (req.body) */
 export const validateSchemaMiddleware = (schema) => (req, res, next) => {
 
-  console.log("REQ.BODY SCHEMA VALIDATOR", req.body)
+  // console.log("REQ.BODY SCHEMA VALIDATOR", req.body)
 
   // Parsing de los datos de entrada para evitar errores de tipo
   req.body.apartmentNumber = req.body.apartmentNumber;

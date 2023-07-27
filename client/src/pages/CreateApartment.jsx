@@ -56,11 +56,8 @@ function CreateApartment() {
       image: values.image,
     }
 
-    console.log("DATA FRONT", data)
-
     const tokenHeader = getCookieValue("token");
     const response = await createApartmentContext(data, tokenHeader)
-    console.log("RESPONSE", response)
     if (response && response.status === 200) {
       navigate('/admin-apartamentos')
     }
