@@ -24,6 +24,7 @@ export const ApartmentProvider = ({ children }) => {
 
   // Crear apartamento
   const createApartmentContext = async (dataApartment, tokenHeader) => {
+    console.log("DATA APARTMENT CONTEXT", dataApartment)
     try {
       const response = await createApartmentRequest(dataApartment)
       // const token = response.data.token

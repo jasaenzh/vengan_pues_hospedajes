@@ -8,7 +8,7 @@ function ApartmentCard({ apartment }) {
 
       <Carousel autoSlide={true} autoSlideInterval={5000}>
         {
-          apartment.images.map((image, index) => (
+          apartment.image.map((image, index) => (
             <img key={index} src={image.secure_url} alt={index} />
           ))
         }

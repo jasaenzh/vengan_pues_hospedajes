@@ -3,6 +3,13 @@ import Apartment from "../models/Apartment.model.js"
 import { deleteImage, uploadImage } from "../utils/cloudinary.js";
 import fs from "fs-extra"
 
+// Función de middleware para verificar los datos de la solicitud antes de la función controladora
+export const verifyRequestData = (req, res, next) => {
+  console.log('Imagenes cargadas:', req.files); // Imprimir información de las imágenes
+  console.log('Otros datos de la solicitud:', req.body); // Imprimir otros datos de la solicitud
+  next(); // Llamada a next() para continuar con la ejecución de la función controladora
+};
+
 
 /** Crear un apartamento  */
 export const createApartment = async (req, res) => {
@@ -11,6 +18,10 @@ export const createApartment = async (req, res) => {
 
     // Obtener el numero del apartamento del body
     const apartmentNumber = req.body.apartmentNumber;
+
+    console.log("REQ.FILE ==> ", req.file)
+    console.log("REQ.FILES ==> ", req.files)
+    console.log("REQ.BODY ==> ", req.body)
 
     // Verifico que el apartamento no exista
     const apartamentExists = await Apartment.findOne({ apartmentNumber });
@@ -30,25 +41,43 @@ export const createApartment = async (req, res) => {
     const apartment = new Apartment(apartmentData);
 
     //Si existe una imagen, la guardo en cloudinary")
-    if (req.file.fieldname) {
+    // if (req.file.) { //TODO: Se utiliza si se sube una imagen
 
-      const result = await uploadImage(req.file.path)
+    if (req.files) {  //TODO: Se utiliza si se sube varias imagenes
 
-      apartment.image = {
-        public_id: result.public_id,
-        secure_url: result.secure_url
+      console.log("*********************INGRESO AL IF DE REQ.FILES *********************")
+
+      // const result = await uploadImage(req.files.path)
+
+      // apartment.image = {
+      //   public_id: result.public_id,
+      //   secure_url: result.secure_url
+      // }
+
+      // await fs.unlink(req.files.path)
+
+      for (const file of req.files) {
+        const result = await uploadImage(file.path);
+
+        apartment.image.push({
+          public_id: result.public_id,
+          secure_url: result.secure_url,
+        });
+
+        await fs.unlink(file.path);
       }
 
-      await fs.unlink(req.file.path)
-
     }
+
+    console.log("========= OBJETO APARTMENT: =========")
+    console.log(apartment)
 
     // Guardo el apartamento en la base de datos
     const apartamentSaved = await apartment.save()
 
     //Devuelvo el apartamento guardado
     return res.status(200).json(apartamentSaved)
-    // return res.status(200).json(apartment)
+
   } catch (error) {
     return res.status(500).json(error)
   }

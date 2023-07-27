@@ -53,11 +53,14 @@ function CreateApartment() {
       grill: values.grill === 'true' ? true : false,
       securityCameras: values.securityCameras === 'true' ? true : false,
       terraceWithView: values.terraceWithView === 'true' ? true : false,
-      image: values.image[0],
+      image: values.image,
     }
+
+    console.log("DATA FRONT", data)
 
     const tokenHeader = getCookieValue("token");
     const response = await createApartmentContext(data, tokenHeader)
+    console.log("RESPONSE", response)
     if (response && response.status === 200) {
       navigate('/admin-apartamentos')
     }
@@ -80,12 +83,12 @@ function CreateApartment() {
             {/* Subir imagenes */}
             <div className='grid grid-cols-1'>
 
-              <label htmlFor='image' className='block text-sm md:font-medium text-slate-100 sm:py-1 sm:px-2'>Imagen</label>
+              <label htmlFor='images' className='block text-sm md:font-medium text-slate-100 sm:py-1 sm:px-2'>Imagen</label>
               <input
                 type="file"
                 // name='image'
                 id='image'
-                // multiple
+                multiple
                 className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs md:text-sm py-2 px-2'
                 {...register('image')} />
 

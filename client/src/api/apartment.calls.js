@@ -7,6 +7,7 @@ import axios from "./axios"
 // })
 
 export const createApartmentRequest = (dataApartment) => {
+  console.log("DATA AXIOS", dataApartment)
   const headers = {
     'Content-Type': 'multipart/form-data' // Configura el encabezado correctamente
   };
