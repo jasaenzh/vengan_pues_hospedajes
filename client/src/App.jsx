@@ -33,6 +33,7 @@ function App() {
           <Route element={<ProtectedRouteAdmin />}>
             <Route path="/admin-apartamentos" element={<AdminApartment />} />
             <Route path="/admin-apartamentos/crear-apartamento" element={<CreateApartment />} />
+            <Route path='admin-apartamentos/crear-apartamento/:id' element={<CreateApartment />} />'
           </Route>
 
           {/* Ruta 404 - No Encontrada   */}

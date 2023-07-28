@@ -16,6 +16,19 @@ export const createApartmentRequest = (dataApartment) => {
 
 export const getApartmentsRequest = () => axios.get(`/apartments`)
 
+export const getApartmentRequest = (id) => axios.get(`/apartments/${id}`)
+
+export const updateApartmentRequest = (id, dataApartment) => {
+  const headers = {
+    'Content-Type': 'multipart/form-data' // Configura el encabezado correctamente
+  };
+
+  return axios.put(`/apartments/${id}`, dataApartment, { headers });
+
+}
+
 export const deleteApartmentRequest = (id) => axios.delete(`/apartments/${id}`)
+
+
 
 

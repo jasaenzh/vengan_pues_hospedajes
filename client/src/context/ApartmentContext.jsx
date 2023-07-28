@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect } from "react";
 import { useState } from 'react';
-import { createApartmentRequest, deleteApartmentRequest, getApartmentsRequest } from "../api/apartment.calls";
+import { createApartmentRequest, deleteApartmentRequest, getApartmentsRequest, updateApartmentRequest } from "../api/apartment.calls";
 import Cookies from 'js-cookie'
 
 // Creo el contexto
@@ -47,11 +47,31 @@ export const ApartmentProvider = ({ children }) => {
     }
   }
 
+  // Obtener apartamento por id
+  const getApartment = async (id) => {
+    try {
+      const response = await getApartmentsRequest(id)
+      return response.data
+    } catch (error) {
+      setErrorsApartment(error.response.data);
+    }
+  }
+
   // Eliminar apartamento
   const deleteApartment = async (id) => {
     try {
       const response = await deleteApartmentRequest(id)
       if (response.status === 204) setApartments(apartments.filter(apartment => apartment.id !== id))
+    } catch (error) {
+      setErrorsApartment(error.response.data);
+    }
+  }
+
+  const updateApartment = async (id, dataApartment) => {
+    try {
+      const response = await updateApartmentRequest(id, dataApartment)
+      if (response.status === 204) setApartments(apartments.filter(apartment => apartment.id !== id))
+      return response
     } catch (error) {
       setErrorsApartment(error.response.data);
     }
@@ -74,7 +94,9 @@ export const ApartmentProvider = ({ children }) => {
       apartments,
       createApartmentContext,
       getApartments,
-      deleteApartment
+      deleteApartment,
+      getApartment,
+      updateApartment
     }}>
       {children}
     </ApartmentContext.Provider>

@@ -1,4 +1,5 @@
 import Carousel from '../components/Carousel';
+import { Link } from "react-router-dom"
 
 // Aca se podria colocar un video
 // <video src={ruta} alt={`Video` autoPlay muted loop} />
@@ -9,6 +10,7 @@ function ApartmentCard({ apartment, handleDeleteApartment }) {
     <div className='bg-[#E3AE40] px-6 py-4 rounded shadow-2xl'>
 
       <div className='grid grid-cols-2 gap-2 mb-2'>
+        {/* Boton eliminar */}
         <button
           className='bg-[#EF6B71] mt-4 hover:bg-[#f59196] text-white font-bold py-2 px-4 rounded'
           onClick={() => {
@@ -22,7 +24,13 @@ function ApartmentCard({ apartment, handleDeleteApartment }) {
         >
           Eliminar
         </button>
-        <button className='bg-[#6E3D1F] mt-4 hover:bg-[#856d5e] text-white font-bold py-2 px-4 rounded'>Editar</button>
+
+        {/* Boton editar */}
+        <Link
+          to={`/admin-apartamentos/crear-apartamento/${apartment._id}`}
+          className='bg-[#6E3D1F] mt-4 hover:bg-[#856d5e] text-white font-bold py-2 px-4 rounded'>
+          Editar
+        </Link>
       </div>
 
       <Carousel autoSlide={true} autoSlideInterval={5000}>

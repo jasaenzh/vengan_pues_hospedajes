@@ -103,7 +103,7 @@ export const getApartmentById = async (req, res) => {
     if (!getApartmentById) return res.status(404).json(["No existe el apartamento"])
     res.status(200).json(getApartmentById)
   } catch (error) {
-    res.status(500).json({ message: `Error al obtener el apartamento` || error.message })
+    res.status(500).json([`Error al obtener el apartamento`] || error.message)
   }
 }
 
@@ -118,34 +118,35 @@ export const updateApartmentById = async (req, res) => {
     const apartment = await Apartment.findById(id)
     if (!apartment) return res.status(404).json(["No existe el apartamento"])
 
-    // Verificar si se ha proporcionado una nueva imagen
-    if (req.files?.image) {
-      const imageIndex = req.body.imageIndex; // Obtener el índice de la imagen a actualizar
-      if (imageIndex >= 0 && imageIndex < apartment.images.length) {
-        // Eliminar la imagen actual en Cloudinary
-        await deleteImage(apartment.images[imageIndex].public_id);
+    // // Verificar si se ha proporcionado una nueva imagen
+    // if (req.files?.image) {
+    //   const imageIndex = req.body.imageIndex; // Obtener el índice de la imagen a actualizar
+    //   if (imageIndex >= 0 && imageIndex < apartment.image.length) {
+    //     // Eliminar la imagen actual en Cloudinary
+    //     await deleteImage(apartment.image[imageIndex].public_id);
 
-        // Subir la nueva imagen a Cloudinary
-        const result = await uploadImage(req.files.image.tempFilePath);
+    //     // Subir la nueva imagen a Cloudinary
+    //     const result = await uploadImage(req.files.image.tempFilePath);
 
-        // Actualizar los datos de la imagen en el array de imágenes
-        apartment.images[imageIndex] = {
-          secure_url: result.secure_url,
-          public_id: result.public_id
-        };
+    //     // Actualizar los datos de la imagen en el array de imágenes
+    //     apartment.image[imageIndex] = {
+    //       secure_url: result.secure_url,
+    //       public_id: result.public_id
+    //     };
 
-        // Guardar el apartamento actualizado en la base de datos
-        await apartment.save();
-        await fs.unlink(req.files.image.tempFilePath)
-      } else {
-        return res.status(400).json({ message: "El índice de imagen proporcionado es inválido" });
-      }
-    }
+    //     // Guardar el apartamento actualizado en la base de datos
+    //     await apartment.save();
+    //     await fs.unlink(req.files.image.tempFilePath)
+    //   } else {
+    //     return res.status(400).json(["El índice de imagen proporcionado es inválido"]);
+    //   }
+    // }
 
     const updateApartment = await Apartment.findByIdAndUpdate(id, body, { new: true })
-    res.status(200).json(updateApartment)
+    console.log("RESPUESTA UPDATE", updateApartment)
+    return res.status(200).json(updateApartment)
   } catch (error) {
-    return res.status(500).json({ message: `Error al actualizar el apartamento` || error.message })
+    return res.status(500).json([`Error al actualizar el apartamento`] || error.message)
   }
 }
 

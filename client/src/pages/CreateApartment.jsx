@@ -1,15 +1,56 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useApartmentContext } from '../context/ApartmentContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 function CreateApartment() {
   const { register, handleSubmit, setValue } = useForm();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const { createApartmentContext, errorsApartment } = useApartmentContext()
+  const params = useParams();
+
+  const { createApartmentContext, errorsApartment, getApartment, updateApartment } = useApartmentContext();
+
+  useEffect(() => {
+    async function loadApartment() {
+      if (params.id) {
+        const getApartmentById = await getApartment(params.id);
+        setValue('apartmentNumber', getApartmentById[0].apartmentNumber);
+        setValue('location', getApartmentById[0].location);
+        setValue('squareMeter', getApartmentById[0].squareMeter);
+        setValue('price', getApartmentById[0].price);
+        setValue('duplex', getApartmentById[0].duplex);
+        setValue('bedrooms', getApartmentById[0].bedrooms);
+        setValue('doubleBeds', getApartmentById[0].doubleBeds);
+        setValue('singleBeds', getApartmentById[0].singleBeds);
+        setValue('trundleBed', getApartmentById[0].trundleBed);
+        setValue('bathrooms', getApartmentById[0].bathrooms);
+        setValue('hotWater', getApartmentById[0].hotWater);
+        setValue('hairdryer', getApartmentById[0].hairdryer);
+        setValue('livingRoom', getApartmentById[0].livingRoom);
+        setValue('diningRoom', getApartmentById[0].diningRoom);
+        setValue('sofaBed', getApartmentById[0].sofaBed);
+        setValue('tv', getApartmentById[0].tv);
+        setValue('internet', getApartmentById[0].internet);
+        setValue('kitchen', getApartmentById[0].kitchen);
+        setValue('fridge', getApartmentById[0].fridge);
+        setValue('washingMachine', getApartmentById[0].washingMachine);
+        setValue('microwave', getApartmentById[0].microwave);
+        setValue('coffeeMaker', getApartmentById[0].coffeeMaker);
+        setValue('dishwasher', getApartmentById[0].dishwasher);
+        setValue('breadToaster', getApartmentById[0].breadToaster);
+        setValue('pressureCooker', getApartmentById[0].pressureCooker);
+        setValue('riceCooker', getApartmentById[0].riceCooker);
+        setValue('grill', getApartmentById[0].grill);
+        setValue('securityCameras', getApartmentById[0].securityCameras);
+        setValue('terraceWithView', getApartmentById[0].terraceWithView);
+      }
+    }
+    loadApartment()
+  }, [params.id])
 
   function getCookieValue(cookieName) {
     const cookies = document.cookie.split("; ");
@@ -23,7 +64,6 @@ function CreateApartment() {
   }
 
   const onSubmitApartment = handleSubmit(async (values) => {
-
     const data = {
       ...values,
       squareMeter: parseInt(values.squareMeter),
@@ -56,11 +96,22 @@ function CreateApartment() {
       image: values.image,
     }
 
-    const tokenHeader = getCookieValue("token");
-    const response = await createApartmentContext(data, tokenHeader)
-    if (response && response.status === 200) {
-      navigate('/admin-apartamentos')
+    if (params.id) {
+      console.log("Actualizar Apartamento")
+      const tokenHeader = getCookieValue("token");
+      const responseUpdateApartment = await updateApartment(params.id, data, tokenHeader)
+      console.log(responseUpdateApartment)
+      if (responseUpdateApartment && responseUpdateApartment.status === 200) {
+        navigate('/admin-apartamentos');
+      }
+    } else {
+      const tokenHeader = getCookieValue("token");
+      const responseCreateApartment = await createApartmentContext(data, tokenHeader)
+      if (responseCreateApartment && responseCreateApartment.status === 200) {
+        navigate('/admin-apartamentos')
+      }
     }
+
   })
 
   return (
@@ -585,7 +636,7 @@ function CreateApartment() {
 
           <div className='grid grid-cols-2 mt-3 gap-2 items-center'>
             <button className='bg-[#EF6B71] px-2 py-2 rounded-full my-2 hover:no-underline text-white'>Cancelar</button>
-            <button className='bg-[#206D53] px-2 py-2 rounded-full my-2 hover:no-underline text-white'>Guardar</button>
+            <button className='bg-[#206D53] px-2 py-2 rounded-full my-2 hover:no-underline text-white'>{params.id ? 'Actualizar' : 'Crear'}</button>
           </div>
 
         </form>
