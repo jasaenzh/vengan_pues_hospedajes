@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useApartmentContext } from '../context/ApartmentContext';
 import { useNavigate, useParams } from 'react-router-dom';
 
 
 function CreateApartment() {
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, setValue, watch } = useForm();
 
   const navigate = useNavigate();
 
@@ -14,43 +14,81 @@ function CreateApartment() {
 
   const { createApartmentContext, errorsApartment, getApartment, updateApartment } = useApartmentContext();
 
+
+  const handleCancelar = () => {
+    navigate(-1)
+  }
+
   useEffect(() => {
     async function loadApartment() {
       if (params.id) {
         const getApartmentById = await getApartment(params.id);
+        console.log("Datos de GetApartment by id", getApartmentById)
         setValue('apartmentNumber', getApartmentById[0].apartmentNumber);
         setValue('location', getApartmentById[0].location);
         setValue('squareMeter', getApartmentById[0].squareMeter);
         setValue('price', getApartmentById[0].price);
-        setValue('duplex', getApartmentById[0].duplex);
+        setValue('duplex', getApartmentById[0].duplex === true ? 'true' : 'false');
         setValue('bedrooms', getApartmentById[0].bedrooms);
         setValue('doubleBeds', getApartmentById[0].doubleBeds);
         setValue('singleBeds', getApartmentById[0].singleBeds);
         setValue('trundleBed', getApartmentById[0].trundleBed);
         setValue('bathrooms', getApartmentById[0].bathrooms);
-        setValue('hotWater', getApartmentById[0].hotWater);
+        setValue('hotWater', getApartmentById[0].hotWater === true ? 'true' : 'false');
         setValue('hairdryer', getApartmentById[0].hairdryer);
-        setValue('livingRoom', getApartmentById[0].livingRoom);
+        setValue('livingRoom', getApartmentById[0].livingRoom === true ? 'true' : 'false');
         setValue('diningRoom', getApartmentById[0].diningRoom);
         setValue('sofaBed', getApartmentById[0].sofaBed);
         setValue('tv', getApartmentById[0].tv);
-        setValue('internet', getApartmentById[0].internet);
-        setValue('kitchen', getApartmentById[0].kitchen);
-        setValue('fridge', getApartmentById[0].fridge);
-        setValue('washingMachine', getApartmentById[0].washingMachine);
-        setValue('microwave', getApartmentById[0].microwave);
-        setValue('coffeeMaker', getApartmentById[0].coffeeMaker);
-        setValue('dishwasher', getApartmentById[0].dishwasher);
-        setValue('breadToaster', getApartmentById[0].breadToaster);
-        setValue('pressureCooker', getApartmentById[0].pressureCooker);
-        setValue('riceCooker', getApartmentById[0].riceCooker);
-        setValue('grill', getApartmentById[0].grill);
-        setValue('securityCameras', getApartmentById[0].securityCameras);
-        setValue('terraceWithView', getApartmentById[0].terraceWithView);
+        setValue('internet', getApartmentById[0].internet === true ? 'true' : 'false');
+        setValue('kitchen', getApartmentById[0].kitchen === true ? 'true' : 'false');
+        setValue('fridge', getApartmentById[0].fridge === true ? 'true' : 'false');
+        setValue('washingMachine', getApartmentById[0].washingMachine === true ? 'true' : 'false');
+        setValue('microwave', getApartmentById[0].microwave === true ? 'true' : 'false');
+        setValue('coffeeMaker', getApartmentById[0].coffeeMaker === true ? 'true' : 'false');
+        setValue('dishwasher', getApartmentById[0].dishwasher === true ? 'true' : 'false');
+        setValue('breadToaster', getApartmentById[0].breadToaster === true ? 'true' : 'false');
+        setValue('pressureCooker', getApartmentById[0].pressureCooker === true ? 'true' : 'false');
+        setValue('riceCooker', getApartmentById[0].riceCooker === true ? 'true' : 'false');
+        setValue('grill', getApartmentById[0].grill === true ? 'true' : 'false');
+        setValue('securityCameras', getApartmentById[0].securityCameras === true ? 'true' : 'false');
+        setValue('terraceWithView', getApartmentById[0].terraceWithView === true ? 'true' : 'false');
+        setValue('image', getApartmentById[0].image);
       }
     }
     loadApartment()
   }, [params.id])
+
+  // Obtén el valor actual del campo "image" utilizando watch
+  const watchedImageFiles = watch('image');
+
+
+  // Utiliza useMemo para evitar ejecutar esta función en cada renderizado
+  const renderSelectedImages = useMemo(() => {
+    return (
+      <div className='grid grid-cols-1 md:grid-cols-2 items-center gap-2'>
+        {watchedImageFiles &&
+          watchedImageFiles.map((file, index) => (
+
+            <div key={index} className='relative'>
+              <button
+                type='button'
+                onClick={() => { console.log(file._id) }}
+                className='absolute top-2 right-2 p-1 bg-red-500 text-white rounded' >
+                X
+              </button>
+              <img
+                key={index}
+                src={file.secure_url}
+                alt={`Imagen ${index}`}
+                className='object-cover w-full h-full'
+              />
+            </div>
+
+          ))}
+      </div>
+    );
+  }, [watchedImageFiles]);
 
   function getCookieValue(cookieName) {
     const cookies = document.cookie.split("; ");
@@ -131,14 +169,23 @@ function CreateApartment() {
             {/* Subir imagenes */}
             <div className='grid grid-cols-1'>
 
-              <label htmlFor='images' className='block text-sm md:font-medium text-slate-100 sm:py-1 sm:px-2'>Imagen</label>
-              <input
-                type="file"
-                // name='image'
-                id='image'
-                multiple
-                className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs md:text-sm py-2 px-2'
-                {...register('image')} />
+              {params.id ? (
+                <div>
+                  {/* Aca van las imagenes mapeadas */}
+                  {renderSelectedImages}
+                </div>
+              ) : (
+                <div>
+                  <label htmlFor='images' className='block text-sm md:font-medium text-slate-100 sm:py-1 sm:px-2'>Imagen</label>
+                  <input
+                    type="file"
+                    // name='image'
+                    id='image'
+                    multiple
+                    className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs md:text-sm py-2 px-2'
+                    {...register('image')} />
+                </div>
+              )}
 
             </div>
 
@@ -214,6 +261,7 @@ function CreateApartment() {
                 id="duplex"
                 className="block w-full p-[6px] mt-1 text-sm text-[#9EA6B2] border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 {...register('duplex')}
+                value={watch('duplex')}
               >
                 <option value=''>Selecciona</option>
                 <option value='true'>Si</option>
@@ -635,7 +683,7 @@ function CreateApartment() {
 
 
           <div className='grid grid-cols-2 mt-3 gap-2 items-center'>
-            <button className='bg-[#EF6B71] px-2 py-2 rounded-full my-2 hover:no-underline text-white'>Cancelar</button>
+            <button onClick={handleCancelar} type='button' className='bg-[#EF6B71] px-2 py-2 rounded-full my-2 hover:no-underline text-white'>Cancelar</button>
             <button className='bg-[#206D53] px-2 py-2 rounded-full my-2 hover:no-underline text-white'>{params.id ? 'Actualizar' : 'Crear'}</button>
           </div>
 

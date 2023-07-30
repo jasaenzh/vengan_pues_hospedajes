@@ -2,6 +2,7 @@
 import Apartment from "../models/Apartment.model.js"
 import { deleteImage, uploadImage } from "../utils/cloudinary.js";
 import fs from "fs-extra"
+import { formatData } from "../utils/transformData.js";
 
 // Función de middleware para verificar los datos de la solicitud antes de la función controladora
 export const verifyRequestData = (req, res, next) => {
@@ -115,8 +116,18 @@ export const updateApartmentById = async (req, res) => {
     const { id } = req.params
     const body = req.body
 
+    console.log(body)
+
     const apartment = await Apartment.findById(id)
     if (!apartment) return res.status(404).json(["No existe el apartamento"])
+
+    await formatData(body)
+
+    // Vefiricar si se ha enviado una nueva imagen
+    if (req.files) {
+      console.log("Entro aca y los datos son:", req.files)
+      console.log("Indice imagenes", req.body)
+    }
 
     // // Verificar si se ha proporcionado una nueva imagen
     // if (req.files?.image) {
