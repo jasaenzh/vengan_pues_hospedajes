@@ -187,34 +187,74 @@ export const deleteApartmentById = async (req, res) => {
 
 /** Eliminar una imagen en un apartamento por su id  */
 export const deleteImageById = async (req, res) => {
-  try {
-    const { id, imageIndex } = req.params;
 
-    // Encuentra el apartamento por su id
+
+  const { id, imageIndex } = req.params;
+
+  console.log(id, imageIndex)
+
+  try {
     const apartment = await Apartment.findById(id);
+    console.log("RESPUESTA APARTAMENTO", apartment)
     if (!apartment) return res.status(404).json(['No se encontró el apartamento']);
 
-    // Verifica si el índice de la imagen es válido
-    if (imageIndex >= 0 && imageIndex < apartment.images.length) {
-      const image = apartment.images[imageIndex];
+    if (imageIndex >= 0 && imageIndex < apartment.image.length) {
+      const image = apartment.image[imageIndex];
+      console.log("RESPUESTA IMAGE", image)
 
       // Elimina la imagen de Cloudinary
       await deleteImage(image.public_id);
 
       // Elimina la imagen del array de imágenes del apartamento
-      apartment.images.splice(imageIndex, 1);
+      apartment.image.splice(imageIndex, 1);
 
       // Guarda los cambios en la base de datos
       await apartment.save();
 
-      return res.status(200).json({ message: 'La imagen ha sido eliminada correctamente' });
     } else {
-      return res.status(400).json({ message: 'El índice de imagen proporcionado es inválido' });
+      return res.status(400).json(['El índice de imagen proporcionado es inválido']);
     }
 
+    return res.status(200).json(['La imagen ha sido eliminada correctamente']);
+
   } catch (error) {
-    return res.status(500).json({ message: `Error al eliminar la imagen: ${error.message}` });
+    return res.status(500).json([`Error al eliminar la imagen: ${error.message}`]);
   }
+
+
+  // const apartment = await Apartment.findById(id);
+
+  // try {
+  //   const { id, imageIndex } = req.params;
+
+
+
+  //   // Encuentra el apartamento por su id
+  //   const apartment = await Apartment.findById(id);
+  //   if (!apartment) return res.status(404).json(['No se encontró el apartamento']);
+
+  //   // Verifica si el índice de la imagen es válido
+  //   if (imageIndex >= 0 && imageIndex < apartment.image.length) {
+  //     const image = apartment.image[imageIndex];
+
+  //     // Elimina la imagen de Cloudinary
+  //     await deleteImage(image.public_id);
+
+  //     // Elimina la imagen del array de imágenes del apartamento
+  //     apartment.image.splice(imageIndex, 1);
+
+  //     // Guarda los cambios en la base de datos
+  //     await apartment.save();
+
+  //     return res.status(200).json(['La imagen ha sido eliminada correctamente']);
+  //   } else {
+  //     return res.status(400).json(['El índice de imagen proporcionado es inválido']);
+  //   }
+
+  // } catch (error) {
+  //   return res.status(500).json({ message: `Error al eliminar la imagen: ${error.message}` });
+  // }
+
 
 
 }

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useApartmentContext } from '../context/ApartmentContext';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -12,18 +12,14 @@ function CreateApartment() {
 
   const params = useParams();
 
-  const { createApartmentContext, errorsApartment, getApartment, updateApartment } = useApartmentContext();
+  const { createApartmentContext, errorsApartment, getApartment, updateApartment, deleteImageApartment } = useApartmentContext();
 
-
-  const handleCancelar = () => {
-    navigate(-1)
-  }
+  const [imageDeleted, setImageDeleted] = useState(false);
 
   useEffect(() => {
     async function loadApartment() {
       if (params.id) {
         const getApartmentById = await getApartment(params.id);
-        console.log("Datos de GetApartment by id", getApartmentById)
         setValue('apartmentNumber', getApartmentById[0].apartmentNumber);
         setValue('location', getApartmentById[0].location);
         setValue('squareMeter', getApartmentById[0].squareMeter);
@@ -57,30 +53,41 @@ function CreateApartment() {
       }
     }
     loadApartment()
-  }, [params.id])
+  }, [params.id, imageDeleted])
 
   // Obtén el valor actual del campo "image" utilizando watch
   const watchedImageFiles = watch('image');
+
+  const handleCancelar = () => {
+    navigate(-1)
+  }
+
 
 
   // Utiliza useMemo para evitar ejecutar esta función en cada renderizado
   const renderSelectedImages = useMemo(() => {
     return (
       <div className='grid grid-cols-1 md:grid-cols-2 items-center gap-2'>
-        {watchedImageFiles &&
-          watchedImageFiles.map((file, index) => (
+        {Array.isArray(watchedImageFiles) &&
+          watchedImageFiles?.map((file, imageIndex) => (
 
-            <div key={index} className='relative'>
+            <div key={imageIndex} className='relative'>
               <button
                 type='button'
-                onClick={() => { console.log(file._id) }}
+                onClick={async () => {
+                  const response = await deleteImageApartment(params.id, imageIndex)
+                  if (response.status === 200) {
+                    alert('Imagen eliminada')
+                    setImageDeleted(!imageDeleted)
+                  }
+                }}
                 className='absolute top-2 right-2 p-1 bg-red-500 text-white rounded' >
                 X
               </button>
               <img
-                key={index}
+                key={imageIndex}
                 src={file.secure_url}
-                alt={`Imagen ${index}`}
+                alt={`Imagen ${imageIndex}`}
                 className='object-cover w-full h-full'
               />
             </div>

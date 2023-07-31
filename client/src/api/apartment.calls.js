@@ -30,5 +30,4 @@ export const updateApartmentRequest = (id, dataApartment) => {
 export const deleteApartmentRequest = (id) => axios.delete(`/apartments/${id}`)
 
 
-
-
+export const deleteImageByIdRequest = (id, imageIndex) => axios.delete(`/apartments/${id}/images/${imageIndex}`)
