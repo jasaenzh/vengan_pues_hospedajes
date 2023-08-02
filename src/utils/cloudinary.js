@@ -13,7 +13,7 @@ cloudinary.config({
 
 // SUBIR IMAGEN
 export async function uploadImage(filePath) {
-  console.log("LO QUE LLEGA A FILEPATH CLOUDINARY", filePath)
+  // console.log("LO QUE LLEGA A FILEPATH CLOUDINARY", filePath)
   return await cloudinary.uploader.upload(filePath, {
     folder: "vengan-pues"
   })

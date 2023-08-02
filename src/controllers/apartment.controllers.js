@@ -116,46 +116,71 @@ export const updateApartmentById = async (req, res) => {
     const { id } = req.params
     const body = req.body
 
-    console.log(body)
+    // console.log(body)
+    // console.log("REQ.FILES ACTUALIZAR:", req.files)
 
     const apartment = await Apartment.findById(id)
     if (!apartment) return res.status(404).json(["No existe el apartamento"])
 
-    await formatData(body)
+    // await formatData(body)
 
     // Vefiricar si se ha enviado una nueva imagen
     if (req.files) {
-      console.log("Entro aca y los datos son:", req.files)
-      console.log("Indice imagenes", req.body)
+      console.log("=========== INGRESO AL IF DE REQ:FILES PARA ACTUALIZAR IMAGENES ===========")
+
+      console.log("CANTIDAD DE IMAGENES", apartment.image.length)
+
+      for (const file of req.files) {
+        const result = await uploadImage(file.path);
+
+        console.log("RESULTADO DE CLOUDINARY", result)
+
+
+        if (apartment.image.length > 0) {
+
+          const indexImage = (apartment.image.length - 1) + 1
+          console.log("IMAGEN INDEX + 1", indexImage)
+
+          apartment.image[indexImage] = {
+            public_id: result.public_id,
+            secure_url: result.secure_url,
+          }
+
+        } else {
+          apartment.image.push({
+            public_id: result.public_id,
+            secure_url: result.secure_url,
+          });
+        }
+
+        fs.unlinkSync(file.path);
+      }
+
+      console.log("LO QUE HAY ACTUALMENTE EN APARTMENT", apartment.image)
+
     }
 
-    // // Verificar si se ha proporcionado una nueva imagen
-    // if (req.files?.image) {
-    //   const imageIndex = req.body.imageIndex; // Obtener el índice de la imagen a actualizar
-    //   if (imageIndex >= 0 && imageIndex < apartment.image.length) {
-    //     // Eliminar la imagen actual en Cloudinary
-    //     await deleteImage(apartment.image[imageIndex].public_id);
+    apartment.markModified('image'); // Marca el campo 'image' como modificado para que se actualice en la base de datos
 
-    //     // Subir la nueva imagen a Cloudinary
-    //     const result = await uploadImage(req.files.image.tempFilePath);
+    // Actualiza también otros campos del apartamento utilizando el objeto 'body'
+    for (const key in body) {
+      apartment[key] = body[key];
+    }
 
-    //     // Actualizar los datos de la imagen en el array de imágenes
-    //     apartment.image[imageIndex] = {
-    //       secure_url: result.secure_url,
-    //       public_id: result.public_id
-    //     };
+    // Guarda el apartamento actualizado en la base de datos
+    const updateApartment = await apartment.save();
 
-    //     // Guardar el apartamento actualizado en la base de datos
-    //     await apartment.save();
-    //     await fs.unlink(req.files.image.tempFilePath)
-    //   } else {
-    //     return res.status(400).json(["El índice de imagen proporcionado es inválido"]);
-    //   }
-    // }
+    console.log("VOY A GUARDAR ESTO", updateApartment);
 
-    const updateApartment = await Apartment.findByIdAndUpdate(id, body, { new: true })
-    console.log("RESPUESTA UPDATE", updateApartment)
-    return res.status(200).json(updateApartment)
+    return res.status(200).json(updateApartment);
+
+    // console.log("VOY A GUARDAR ESTO", apartment)
+
+
+    // const updateApartment = await Apartment.findByIdAndUpdate(id, body, { new: true })
+
+    // console.log("RESPUESTA UPDATE", updateApartment)
+    // return res.status(200).json(updateApartment)
   } catch (error) {
     return res.status(500).json([`Error al actualizar el apartamento`] || error.message)
   }
@@ -191,16 +216,16 @@ export const deleteImageById = async (req, res) => {
 
   const { id, imageIndex } = req.params;
 
-  console.log(id, imageIndex)
+  // console.log(id, imageIndex)
 
   try {
     const apartment = await Apartment.findById(id);
-    console.log("RESPUESTA APARTAMENTO", apartment)
+    // console.log("RESPUESTA APARTAMENTO", apartment)
     if (!apartment) return res.status(404).json(['No se encontró el apartamento']);
 
     if (imageIndex >= 0 && imageIndex < apartment.image.length) {
       const image = apartment.image[imageIndex];
-      console.log("RESPUESTA IMAGE", image)
+      // console.log("RESPUESTA IMAGE", image)
 
       // Elimina la imagen de Cloudinary
       await deleteImage(image.public_id);
@@ -221,6 +246,34 @@ export const deleteImageById = async (req, res) => {
     return res.status(500).json([`Error al eliminar la imagen: ${error.message}`]);
   }
 
+
+
+
+  // // Verificar si se ha proporcionado una nueva imagen
+  // if (req.files?.image) {
+  //   const imageIndex = req.body.imageIndex; // Obtener el índice de la imagen a actualizar
+  //   if (imageIndex >= 0 && imageIndex < apartment.image.length) {
+  //     // Eliminar la imagen actual en Cloudinary
+  //     await deleteImage(apartment.image[imageIndex].public_id);
+
+  //     // Subir la nueva imagen a Cloudinary
+  //     const result = await uploadImage(req.files.image.tempFilePath);
+
+  //     // Actualizar los datos de la imagen en el array de imágenes
+  //     apartment.image[imageIndex] = {
+  //       secure_url: result.secure_url,
+  //       public_id: result.public_id
+  //     };
+
+  //     // Guardar el apartamento actualizado en la base de datos
+  //     await apartment.save();
+  //     await fs.unlink(req.files.image.tempFilePath)
+  //   } else {
+  //     return res.status(400).json(["El índice de imagen proporcionado es inválido"]);
+  //   }
+  // }
+
+  // ###############################################################
 
   // const apartment = await Apartment.findById(id);
 

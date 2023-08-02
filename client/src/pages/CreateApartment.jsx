@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useApartmentContext } from '../context/ApartmentContext';
 import { useNavigate, useParams } from 'react-router-dom';
+import imgUpload from "../assets/cloud-upload.svg"
 
 
 function CreateApartment() {
@@ -15,6 +16,7 @@ function CreateApartment() {
   const { createApartmentContext, errorsApartment, getApartment, updateApartment, deleteImageApartment } = useApartmentContext();
 
   const [imageDeleted, setImageDeleted] = useState(false);
+  const [imageAdd, setImageAdd] = useState(false);
 
   useEffect(() => {
     async function loadApartment() {
@@ -53,7 +55,7 @@ function CreateApartment() {
       }
     }
     loadApartment()
-  }, [params.id, imageDeleted])
+  }, [params.id, imageDeleted, imageAdd])
 
   // Obtén el valor actual del campo "image" utilizando watch
   const watchedImageFiles = watch('image');
@@ -93,6 +95,31 @@ function CreateApartment() {
             </div>
 
           ))}
+
+        <div>
+          <div className='mx-auto max-w-xs'>
+            {/* Titulo de la card */}
+            <label htmlFor='image' className='mb-1  block text-xs text-center font-medium text-gray-700'>
+              Agregar Imagen/Imagenes
+            </label>
+
+            <label className='flex w-full cursor-pointer appearance-none items-center justify-center rounded-md border-2 border-dashed border-gray-200 p-5 transition-all hover:border-lime-500'>
+              <div className='space-y-1 text-center'>
+                {/* Imagen nube de cargar archivo */}
+                <div className='mx-auto inline-flex h-10 w-10 items-center justify-center rounded-full bg-gray-100'>
+                  <img src={imgUpload} alt="img-upload" />
+                </div>
+
+                {/* Texto */}
+                <div className='text-gray-600'>
+                  <p class="text-[9px] text-gray-500">SVG, PNG, JPG or GIF</p>
+                </div>
+              </div>
+              <input type="file" id='image' className='sr-only' multiple {...register('image')} />
+            </label>
+          </div>
+        </div>
+
       </div>
     );
   }, [watchedImageFiles]);
@@ -142,12 +169,13 @@ function CreateApartment() {
     }
 
     if (params.id) {
-      console.log("Actualizar Apartamento")
+      // console.log("Actualizar Apartamento")
       const tokenHeader = getCookieValue("token");
       const responseUpdateApartment = await updateApartment(params.id, data, tokenHeader)
-      console.log(responseUpdateApartment)
+      // console.log(responseUpdateApartment)
       if (responseUpdateApartment && responseUpdateApartment.status === 200) {
         navigate('/admin-apartamentos');
+        setImageAdd(!imageAdd)
       }
     } else {
       const tokenHeader = getCookieValue("token");
@@ -183,7 +211,7 @@ function CreateApartment() {
                 </div>
               ) : (
                 <div>
-                  <label htmlFor='images' className='block text-sm md:font-medium text-slate-100 sm:py-1 sm:px-2'>Imagen</label>
+                  <label htmlFor='image' className='block text-sm md:font-medium text-slate-100 sm:py-1 sm:px-2'>Imagen</label>
                   <input
                     type="file"
                     // name='image'
