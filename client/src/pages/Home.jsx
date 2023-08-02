@@ -1,24 +1,41 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
 import { useAuth } from "../context/AuthContext"
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useApartmentContext } from '../context/ApartmentContext';
+import CardApartmentHome from '../components/CardApartmentHome';
 
 function Home() {
   const { user, isAuthenticated } = useAuth();
 
+  const { getApartments, apartments } = useApartmentContext();
+
   const navigate = useNavigate();
 
   useEffect(() => {
+    getApartments();
     if (isAuthenticated && user.emailVerified === false) {
       navigate("/validar-email")
     } else if (isAuthenticated && user.emailVerified === true) {
       navigate("/")
     }
+    // console.log(apartments)
   }, [user, isAuthenticated, navigate])
 
 
   return (
-    <div>Home</div>
+    <div className='bg-slate-300 max-h-full max-w-full grid grid-cols-1 sm:grid-cols-2 p-3 gap-2'>
+      {apartments && apartments?.length === 0 ? (
+        <div>
+          <p>Cargando...</p>
+        </div>
+      ) : (
+        apartments?.map((aparment, key) => (
+          <CardApartmentHome key={key} aparment={aparment} />
+        ))
+      )}
+    </div>
   )
 }
 

@@ -42,6 +42,7 @@ export const ApartmentProvider = ({ children }) => {
     try {
       const response = await getApartmentsRequest()
       setApartments(response.data)
+      return response
     } catch (error) {
       setErrorsApartment(error.response.data);
     }
