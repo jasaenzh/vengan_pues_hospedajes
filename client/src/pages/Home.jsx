@@ -20,7 +20,6 @@ function Home() {
     } else if (isAuthenticated && user.emailVerified === true) {
       navigate("/")
     }
-    // console.log(apartments)
   }, [user, isAuthenticated, navigate])
 
 

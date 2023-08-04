@@ -22,36 +22,36 @@ function CreateApartment() {
     async function loadApartment() {
       if (params.id) {
         const getApartmentById = await getApartment(params.id);
-        setValue('apartmentNumber', getApartmentById[0].apartmentNumber);
-        setValue('location', getApartmentById[0].location);
-        setValue('squareMeter', getApartmentById[0].squareMeter);
-        setValue('price', getApartmentById[0].price);
-        setValue('duplex', getApartmentById[0].duplex === true ? 'true' : 'false');
-        setValue('bedrooms', getApartmentById[0].bedrooms);
-        setValue('doubleBeds', getApartmentById[0].doubleBeds);
-        setValue('singleBeds', getApartmentById[0].singleBeds);
-        setValue('trundleBed', getApartmentById[0].trundleBed);
-        setValue('bathrooms', getApartmentById[0].bathrooms);
-        setValue('hotWater', getApartmentById[0].hotWater === true ? 'true' : 'false');
-        setValue('hairdryer', getApartmentById[0].hairdryer);
-        setValue('livingRoom', getApartmentById[0].livingRoom === true ? 'true' : 'false');
-        setValue('diningRoom', getApartmentById[0].diningRoom);
-        setValue('sofaBed', getApartmentById[0].sofaBed);
-        setValue('tv', getApartmentById[0].tv);
-        setValue('internet', getApartmentById[0].internet === true ? 'true' : 'false');
-        setValue('kitchen', getApartmentById[0].kitchen === true ? 'true' : 'false');
-        setValue('fridge', getApartmentById[0].fridge === true ? 'true' : 'false');
-        setValue('washingMachine', getApartmentById[0].washingMachine === true ? 'true' : 'false');
-        setValue('microwave', getApartmentById[0].microwave === true ? 'true' : 'false');
-        setValue('coffeeMaker', getApartmentById[0].coffeeMaker === true ? 'true' : 'false');
-        setValue('dishwasher', getApartmentById[0].dishwasher === true ? 'true' : 'false');
-        setValue('breadToaster', getApartmentById[0].breadToaster === true ? 'true' : 'false');
-        setValue('pressureCooker', getApartmentById[0].pressureCooker === true ? 'true' : 'false');
-        setValue('riceCooker', getApartmentById[0].riceCooker === true ? 'true' : 'false');
-        setValue('grill', getApartmentById[0].grill === true ? 'true' : 'false');
-        setValue('securityCameras', getApartmentById[0].securityCameras === true ? 'true' : 'false');
-        setValue('terraceWithView', getApartmentById[0].terraceWithView === true ? 'true' : 'false');
-        setValue('image', getApartmentById[0].image);
+        setValue('apartmentNumber', getApartmentById.apartmentNumber);
+        setValue('location', getApartmentById.location);
+        setValue('squareMeter', getApartmentById.squareMeter);
+        setValue('price', getApartmentById.price);
+        setValue('duplex', getApartmentById.duplex === true ? 'true' : 'false');
+        setValue('bedrooms', getApartmentById.bedrooms);
+        setValue('doubleBeds', getApartmentById.doubleBeds);
+        setValue('singleBeds', getApartmentById.singleBeds);
+        setValue('trundleBed', getApartmentById.trundleBed);
+        setValue('bathrooms', getApartmentById.bathrooms);
+        setValue('hotWater', getApartmentById.hotWater === true ? 'true' : 'false');
+        setValue('hairdryer', getApartmentById.hairdryer);
+        setValue('livingRoom', getApartmentById.livingRoom === true ? 'true' : 'false');
+        setValue('diningRoom', getApartmentById.diningRoom);
+        setValue('sofaBed', getApartmentById.sofaBed);
+        setValue('tv', getApartmentById.tv);
+        setValue('internet', getApartmentById.internet === true ? 'true' : 'false');
+        setValue('kitchen', getApartmentById.kitchen === true ? 'true' : 'false');
+        setValue('fridge', getApartmentById.fridge === true ? 'true' : 'false');
+        setValue('washingMachine', getApartmentById.washingMachine === true ? 'true' : 'false');
+        setValue('microwave', getApartmentById.microwave === true ? 'true' : 'false');
+        setValue('coffeeMaker', getApartmentById.coffeeMaker === true ? 'true' : 'false');
+        setValue('dishwasher', getApartmentById.dishwasher === true ? 'true' : 'false');
+        setValue('breadToaster', getApartmentById.breadToaster === true ? 'true' : 'false');
+        setValue('pressureCooker', getApartmentById.pressureCooker === true ? 'true' : 'false');
+        setValue('riceCooker', getApartmentById.riceCooker === true ? 'true' : 'false');
+        setValue('grill', getApartmentById.grill === true ? 'true' : 'false');
+        setValue('securityCameras', getApartmentById.securityCameras === true ? 'true' : 'false');
+        setValue('terraceWithView', getApartmentById.terraceWithView === true ? 'true' : 'false');
+        setValue('image', getApartmentById.image);
       }
     }
     loadApartment()
@@ -112,7 +112,7 @@ function CreateApartment() {
 
                 {/* Texto */}
                 <div className='text-gray-600'>
-                  <p class="text-[9px] text-gray-500">SVG, PNG, JPG or GIF</p>
+                  <p className="text-[9px] text-gray-500">SVG, PNG, JPG or GIF</p>
                 </div>
               </div>
               <input type="file" id='image' className='sr-only' multiple {...register('image')} />
@@ -169,10 +169,8 @@ function CreateApartment() {
     }
 
     if (params.id) {
-      // console.log("Actualizar Apartamento")
       const tokenHeader = getCookieValue("token");
       const responseUpdateApartment = await updateApartment(params.id, data, tokenHeader)
-      // console.log(responseUpdateApartment)
       if (responseUpdateApartment && responseUpdateApartment.status === 200) {
         navigate('/admin-apartamentos');
         setImageAdd(!imageAdd)

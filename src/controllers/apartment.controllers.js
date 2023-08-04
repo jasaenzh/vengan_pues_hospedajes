@@ -20,10 +20,6 @@ export const createApartment = async (req, res) => {
     // Obtener el numero del apartamento del body
     const apartmentNumber = req.body.apartmentNumber;
 
-    // console.log("REQ.FILE ==> ", req.file)
-    // console.log("REQ.FILES ==> ", req.files)
-    // console.log("REQ.BODY ==> ", req.body)
-
     // Verifico que el apartamento no exista
     const apartamentExists = await Apartment.findOne({ apartmentNumber });
 
@@ -41,21 +37,8 @@ export const createApartment = async (req, res) => {
     // Creo una instancia del modelo Apartment
     const apartment = new Apartment(apartmentData);
 
-    //Si existe una imagen, la guardo en cloudinary")
-    // if (req.file.) { //TODO: Se utiliza si se sube una imagen
-
     if (req.files) {  //TODO: Se utiliza si se sube varias imagenes
 
-      // console.log("*********************INGRESO AL IF DE REQ.FILES *********************")
-
-      // const result = await uploadImage(req.files.path)
-
-      // apartment.image = {
-      //   public_id: result.public_id,
-      //   secure_url: result.secure_url
-      // }
-
-      // await fs.unlink(req.files.path)
 
       for (const file of req.files) {
         const result = await uploadImage(file.path);
@@ -69,9 +52,6 @@ export const createApartment = async (req, res) => {
       }
 
     }
-
-    // console.log("========= OBJETO APARTMENT: =========")
-    // console.log(apartment)
 
     // Guardo el apartamento en la base de datos
     const apartamentSaved = await apartment.save()
@@ -116,9 +96,6 @@ export const updateApartmentById = async (req, res) => {
     const { id } = req.params
     const body = req.body
 
-    // console.log(body)
-    // console.log("REQ.FILES ACTUALIZAR:", req.files)
-
     const apartment = await Apartment.findById(id)
     if (!apartment) return res.status(404).json(["No existe el apartamento"])
 
@@ -126,20 +103,14 @@ export const updateApartmentById = async (req, res) => {
 
     // Vefiricar si se ha enviado una nueva imagen
     if (req.files) {
-      console.log("=========== INGRESO AL IF DE REQ:FILES PARA ACTUALIZAR IMAGENES ===========")
-
-      console.log("CANTIDAD DE IMAGENES", apartment.image.length)
 
       for (const file of req.files) {
         const result = await uploadImage(file.path);
-
-        console.log("RESULTADO DE CLOUDINARY", result)
 
 
         if (apartment.image.length > 0) {
 
           const indexImage = (apartment.image.length - 1) + 1
-          console.log("IMAGEN INDEX + 1", indexImage)
 
           apartment.image[indexImage] = {
             public_id: result.public_id,
@@ -156,8 +127,6 @@ export const updateApartmentById = async (req, res) => {
         fs.unlinkSync(file.path);
       }
 
-      console.log("LO QUE HAY ACTUALMENTE EN APARTMENT", apartment.image)
-
     }
 
     apartment.markModified('image'); // Marca el campo 'image' como modificado para que se actualice en la base de datos
@@ -170,17 +139,8 @@ export const updateApartmentById = async (req, res) => {
     // Guarda el apartamento actualizado en la base de datos
     const updateApartment = await apartment.save();
 
-    console.log("VOY A GUARDAR ESTO", updateApartment);
-
     return res.status(200).json(updateApartment);
 
-    // console.log("VOY A GUARDAR ESTO", apartment)
-
-
-    // const updateApartment = await Apartment.findByIdAndUpdate(id, body, { new: true })
-
-    // console.log("RESPUESTA UPDATE", updateApartment)
-    // return res.status(200).json(updateApartment)
   } catch (error) {
     return res.status(500).json([`Error al actualizar el apartamento`] || error.message)
   }
@@ -216,16 +176,13 @@ export const deleteImageById = async (req, res) => {
 
   const { id, imageIndex } = req.params;
 
-  // console.log(id, imageIndex)
 
   try {
     const apartment = await Apartment.findById(id);
-    // console.log("RESPUESTA APARTAMENTO", apartment)
     if (!apartment) return res.status(404).json(['No se encontró el apartamento']);
 
     if (imageIndex >= 0 && imageIndex < apartment.image.length) {
       const image = apartment.image[imageIndex];
-      // console.log("RESPUESTA IMAGE", image)
 
       // Elimina la imagen de Cloudinary
       await deleteImage(image.public_id);

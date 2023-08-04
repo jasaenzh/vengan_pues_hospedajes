@@ -4,8 +4,6 @@ import StarsCalification from './StarsCalification';
 
 const CardApartmentHome = (apartment) => {
 
-  console.log("Apartamento:", apartment)
-  console.log(typeof apartment.aparment.bedrooms)
   const apartamento = apartment.aparment
   let bedroomsLabel = apartamento.bedrooms === 1 ? 'habitación' : 'habitaciones';
   let doubleBedsLabel = apartamento.doubleBeds === 1 ? 'cama doble' : 'camas dobles';
@@ -48,6 +46,25 @@ const CardApartmentHome = (apartment) => {
                 : ''
             },
           </span>
+          <span> {apartamento.bathrooms} baño{apartamento.bathrooms === 1 ? '' : 's'} {apartamento.hotWater === true ? ` con agua caliente` : ``}</span>
+          <span>{apartamento.hairdryer >= 1 ? `, secador de cabello` : ``}</span>
+          <span>{apartamento.livingRoom === true ? `, sala` : ``}</span>
+          <span>{apartamento.diningRoom >= 1 ? `, comedor` : ``}</span>
+          <span>{apartamento.sofaBed >= 1 ? `, sofá cama` : ``}</span>
+          <span>{apartamento.tv >= 1 ? `, televisor` : ``}</span>
+          <span>{apartamento.internet === true ? `, internet` : ``}</span>
+          <span>{apartamento.kitchen === true ? `, cocina equipada con` : ``}</span>
+          <span>{apartamento.fridge === true ? ` nevera` : ``}</span>
+          <span>{apartamento.washingMachine === true ? `, lavadora` : ``}</span>
+          <span>{apartamento.microwave === true ? `, microondas` : ``}</span>
+          <span>{apartamento.coffeeMaker === true ? `, cafetera` : ``}</span>
+          <span>{apartamento.dishwasher === true ? `, licuadora` : ``}</span>
+          <span>{apartamento.breadToaster === true ? `, tostador de pan` : ``}</span>
+          <span>{apartamento.pressureCooker === true ? `, olla presión` : ``}</span>
+          <span>{apartamento.riceCooker === true ? `, olla arrocera con vaporera` : ``}</span>
+          <span>{apartamento.grill === true ? `, sandwichera` : ``}</span>
+          <span>{apartamento.securityCameras === true ? `, cámaras de seguridad en exteriores` : ``}</span>
+          <span>{apartamento.terraceWithView === true ? `, terraza con vista panorámica` : ``}</span>
         </p>
       </div>
     </div>

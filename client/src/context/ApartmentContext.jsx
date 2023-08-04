@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect } from "react";
 import { useState } from 'react';
-import { createApartmentRequest, deleteApartmentRequest, deleteImageByIdRequest, getApartmentsRequest, updateApartmentRequest } from "../api/apartment.calls";
+import { createApartmentRequest, deleteApartmentRequest, deleteImageByIdRequest, getApartmentRequest, getApartmentsRequest, updateApartmentRequest } from "../api/apartment.calls";
 import Cookies from 'js-cookie'
 
 // Creo el contexto
@@ -51,7 +51,7 @@ export const ApartmentProvider = ({ children }) => {
   // Obtener apartamento por id
   const getApartment = async (id) => {
     try {
-      const response = await getApartmentsRequest(id)
+      const response = await getApartmentRequest(id)
       return response.data
     } catch (error) {
       setErrorsApartment(error.response.data);
