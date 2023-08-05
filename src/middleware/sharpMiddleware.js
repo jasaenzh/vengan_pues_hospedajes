@@ -10,7 +10,7 @@ import sharp from 'sharp'
 
 // }
 
-export const helperImg = async (filePath, fileName, higth = 300, width = 300) => {
+export const helperImg = async (filePath, fileName, higth = 300, width = 720) => {
   try {
     const fileOptimize = await sharp(filePath)
       .resize(width, higth)

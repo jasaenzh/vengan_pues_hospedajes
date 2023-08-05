@@ -13,6 +13,30 @@ export const verifyRequestData = (req, res, next) => {
 };
 
 
+/** Obtener todos los apartamentos */
+export const getApartments = async (req, res) => {
+  try {
+    const apartments = await Apartment.find();
+    if (!apartments) return res.status(404).json({ message: "No hay apartamentos" })
+    return res.status(200).json(apartments)
+  } catch (error) {
+    return res.status(500).json(error)
+  }
+}
+
+/** Obtener un apartamento por su id */
+export const getApartmentById = async (req, res) => {
+  const { id } = req.params
+  try {
+    const getApartmentById = await Apartment.findById(id)
+    if (!getApartmentById) return res.status(404).json(["No existe el apartamento"])
+    res.status(200).json(getApartmentById)
+  } catch (error) {
+    res.status(500).json([`Error al obtener el apartamento`] || error.message)
+  }
+}
+
+
 /** Crear un apartamento  */
 export const createApartment = async (req, res) => {
 
@@ -38,41 +62,30 @@ export const createApartment = async (req, res) => {
     // Creo una instancia del modelo Apartment
     const apartment = new Apartment(apartmentData);
 
-    console.log("REQ.FILES => SHARP:", req.files)
-
-    if (req.files) {  //TODO: Se utiliza si se sube varias imagenes
+    if (req.files) {  //TODO: files Se utiliza si se sube varias imagenes
 
       const promises = [];
 
-
       for (const optimizeSharp of req.files) {
-
         const promise = helperImg(optimizeSharp.path, `img-${optimizeSharp.filename}`)
-
-        // fs.unlinkSync(file.path);
-
         promises.push(promise);
-
-
       }
 
       const resultPromise = await Promise.all(promises);
 
-
       for (const file of resultPromise) {
-
         const optimizeImagePath = file.path
-
-        console.log(optimizeImagePath)
-
-        const result = await uploadImage(file.path);
-
+        const result = await uploadImage(optimizeImagePath);
         apartment.image.push({
           public_id: result.public_id,
           secure_url: result.secure_url,
         });
+        fs.unlinkSync(optimizeImagePath);
+      }
 
-        fs.unlinkSync(file.path);
+      for (const imagePath of req.files) {
+        const deleteIMGPATH = imagePath.path
+        fs.unlinkSync(deleteIMGPATH);
       }
 
       // Imagen sin optimizar
@@ -101,29 +114,6 @@ export const createApartment = async (req, res) => {
 
 }
 
-/** Obtener todos los apartamentos */
-export const getApartments = async (req, res) => {
-  try {
-    const apartments = await Apartment.find();
-    if (!apartments) return res.status(404).json({ message: "No hay apartamentos" })
-    return res.status(200).json(apartments)
-  } catch (error) {
-    return res.status(500).json(error)
-  }
-}
-
-/** Obtener un apartamento por su id */
-export const getApartmentById = async (req, res) => {
-  const { id } = req.params
-  try {
-    const getApartmentById = await Apartment.findById(id)
-    if (!getApartmentById) return res.status(404).json(["No existe el apartamento"])
-    res.status(200).json(getApartmentById)
-  } catch (error) {
-    res.status(500).json([`Error al obtener el apartamento`] || error.message)
-  }
-}
-
 
 /** Actualizar un apartamento por su id  */
 export const updateApartmentById = async (req, res) => {
@@ -140,28 +130,58 @@ export const updateApartmentById = async (req, res) => {
     // Vefiricar si se ha enviado una nueva imagen
     if (req.files) {
 
-      for (const file of req.files) {
-        const result = await uploadImage(file.path);
+      const promises = [];
 
+      for (const optimizeSharp of req.files) {
+        const promise = helperImg(optimizeSharp.path, `img-${optimizeSharp.filename}`)
+        promises.push(promise);
+      }
+
+      const resultPromise = await Promise.all(promises);
+
+      for (const file of resultPromise) {
+        const optimizeImagePath = file.path
+        const result = await uploadImage(optimizeImagePath);
 
         if (apartment.image.length > 0) {
-
           const indexImage = (apartment.image.length - 1) + 1
-
-          apartment.image[indexImage] = {
+          apartment.image.push({
             public_id: result.public_id,
             secure_url: result.secure_url,
-          }
-
+          });
         } else {
           apartment.image.push({
             public_id: result.public_id,
             secure_url: result.secure_url,
           });
         }
-
-        fs.unlinkSync(file.path);
+        fs.unlinkSync(optimizeImagePath);
       }
+
+      // for (const file of req.files) {
+
+
+      //   const result = await uploadImage(file.path);
+
+
+      //   if (apartment.image.length > 0) {
+
+      //     const indexImage = (apartment.image.length - 1) + 1
+
+      //     apartment.image[indexImage] = {
+      //       public_id: result.public_id,
+      //       secure_url: result.secure_url,
+      //     }
+
+      //   } else {
+      //     apartment.image.push({
+      //       public_id: result.public_id,
+      //       secure_url: result.secure_url,
+      //     });
+      //   }
+
+      //   fs.unlinkSync(file.path);
+      // }
 
     }
 
