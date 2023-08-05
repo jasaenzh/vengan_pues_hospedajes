@@ -3,6 +3,7 @@ import Apartment from "../models/Apartment.model.js"
 import { deleteImage, uploadImage } from "../utils/cloudinary.js";
 import fs from "fs-extra"
 import { formatData } from "../utils/transformData.js";
+import { helperImg } from "../middleware/sharpMiddleware.js";
 
 // Función de middleware para verificar los datos de la solicitud antes de la función controladora
 export const verifyRequestData = (req, res, next) => {
@@ -37,10 +38,33 @@ export const createApartment = async (req, res) => {
     // Creo una instancia del modelo Apartment
     const apartment = new Apartment(apartmentData);
 
+    console.log("REQ.FILES => SHARP:", req.files)
+
     if (req.files) {  //TODO: Se utiliza si se sube varias imagenes
 
+      const promises = [];
 
-      for (const file of req.files) {
+
+      for (const optimizeSharp of req.files) {
+
+        const promise = helperImg(optimizeSharp.path, `img-${optimizeSharp.filename}`)
+
+        // fs.unlinkSync(file.path);
+
+        promises.push(promise);
+
+
+      }
+
+      const resultPromise = await Promise.all(promises);
+
+
+      for (const file of resultPromise) {
+
+        const optimizeImagePath = file.path
+
+        console.log(optimizeImagePath)
+
         const result = await uploadImage(file.path);
 
         apartment.image.push({
@@ -50,6 +74,18 @@ export const createApartment = async (req, res) => {
 
         fs.unlinkSync(file.path);
       }
+
+      // Imagen sin optimizar
+      // for (const file of req.files) {
+      //   const result = await uploadImage(file.path);
+
+      //   apartment.image.push({
+      //     public_id: result.public_id,
+      //     secure_url: result.secure_url,
+      //   });
+
+      //   fs.unlinkSync(file.path);
+      // }
 
     }
 
