@@ -7,7 +7,7 @@ import { useApartmentContext } from '../context/ApartmentContext';
 import CardApartmentHome from '../components/CardApartmentHome';
 
 function Home() {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, loading } = useAuth();
 
   const { getApartments, apartments } = useApartmentContext();
 
@@ -25,15 +25,17 @@ function Home() {
 
   return (
     <div className='bg-slate-300 max-h-full max-w-full grid grid-cols-1 sm:grid-cols-2 p-3 gap-2'>
-      {apartments && apartments?.length === 0 ? (
+      {loading ? (
+        <div>Cargando...</div>
+      ) : (apartments && apartments?.length === 0 ? (
         <div>
-          <p>Cargando...</p>
+          <p>No hay apartamentos para mostrar...</p>
         </div>
       ) : (
         apartments?.map((aparment, key) => (
           <CardApartmentHome key={key} aparment={aparment} />
         ))
-      )}
+      ))}
     </div>
   )
 }
