@@ -4,7 +4,7 @@ import StarsCalification from './StarsCalification';
 import { useForm } from 'react-hook-form';
 import Calendario from './Calendario';
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc'
+import utc from 'dayjs/plugin/utc';
 import es from 'dayjs/locale/es';
 import { useBookingContext } from '../context/BookingsContext';
 
