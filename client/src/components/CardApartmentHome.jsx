@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import Calendario from './Calendario';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import es from 'dayjs/locale/es';
+// import es from 'dayjs/locale/es';
 import { useBookingContext } from '../context/BookingsContext';
 
 
@@ -15,7 +15,7 @@ dayjs.extend(utc)
 
 const CardApartmentHome = (apartment) => {
 
-  dayjs.locale(es);
+  // dayjs.locale(es);
 
   const apartamento = apartment.aparment
   let bedroomsLabel = apartamento.bedrooms === 1 ? 'habitación' : 'habitaciones';
