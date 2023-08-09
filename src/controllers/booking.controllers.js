@@ -7,18 +7,15 @@ export const createBooking = async (req, res) => {
 
   try {
 
-    const {
-      startDate,
-      endDate,
-      numberOfDays,
-      state,
-      apartment,
-    } = req.body;
+    const { startDate, endDate, apartmentId } = req.body
+
+    const apartment = apartmentId
 
     const { id } = req.user;
 
     // Validar que los campos obligatorios sean enviados
     if (!apartment) return res.status(400).json({ message: "Falta el numero del apartamento" })
+
 
     // Valido que el apartamento exista
     const existApartment = await Apartment.findById(apartment);
@@ -26,6 +23,7 @@ export const createBooking = async (req, res) => {
       return res.status(404).json({ message: "Apartamento no encontrado" });
     }
 
+    // Todo: Revisar si esto funciona
     // Validar que la fecha de reserva no esté ocupada para el ID del apartamento
     const existingBooking = await Booking.findOne({
       apartment,
@@ -33,13 +31,13 @@ export const createBooking = async (req, res) => {
       endDate: { $gte: new Date(startDate) },
     });
 
-
     if (existingBooking) {
       return res.status(400).json({ message: "El apartamento ya está reservado en las fechas indicadas" });
     }
 
     // Extraer el precio del apartamento
     const apartmentPrice = existApartment.price;
+
 
     // Validar que el precio del apartamento sea un numero
     if (typeof apartmentPrice !== "number" || isNaN(apartmentPrice)) {
@@ -50,10 +48,9 @@ export const createBooking = async (req, res) => {
     const dateStart = new Date(startDate);
     const dateEnd = new Date(endDate);
 
-
     // Validar que la fecha de inicio y fecha de fin sean diferentes
     if (dateStart.getTime() === dateEnd.getTime()) {
-      return res.status(400).json({ message: "La fecha de inicio y la fecha de fin no pueden ser iguales" });
+      return res.status(400).json(["La fecha de inicio y la fecha de fin no pueden ser iguales"]);
     }
 
     // Obtener la fecha actual
@@ -63,10 +60,9 @@ export const createBooking = async (req, res) => {
     const currentDay = String(currentDate.getDate()).padStart(2, '0');
     const formattedCurrentDate = new Date(`${currentYear}-${currentMonth}-${currentDay}`);
 
-
     // Validar que la fecha de inicio sea mayor o igual a la fecha actual
     if (dateStart < formattedCurrentDate) {
-      return res.status(400).json({ message: "La fecha de inicio debe ser mayor o igual a la fecha actual" });
+      return res.status(400).json(["La fecha de inicio debe ser mayor o igual a la fecha de hoy"]);
     }
 
     // La fecha finalizacion debe de ser igual o mayor a la fecha de inicio
@@ -85,24 +81,22 @@ export const createBooking = async (req, res) => {
     // Crear la reserva
     const newBooking = new Booking({
       reservationCode: codeReservation,
-      startDate,
-      endDate,
-      numberOfDays,
-      totalPrice,
-      state,
+      startDate: dateStart,
+      endDate: dateEnd,
+      numberOfDays: diffDays,
+      totalPrice: totalPrice,
       user: id,
-      apartment,
+      apartment: apartment,
     })
 
     // Guardar la reserva
     const booking = await newBooking.save();
 
-
     // devolver la reserva
-    res.status(201).json(booking);
+    return res.status(201).json(booking);
 
   } catch (error) {
-    res.status(500).json(error.message);
+    return res.status(500).json(error.message);
   }
 
 }

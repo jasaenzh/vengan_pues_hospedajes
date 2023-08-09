@@ -23,6 +23,8 @@ function Home() {
   }, [user, isAuthenticated, navigate])
 
 
+
+
   return (
     <div className='bg-slate-300 max-h-full max-w-full grid grid-cols-1 sm:grid-cols-2 p-3 gap-2'>
       {loading ? (
