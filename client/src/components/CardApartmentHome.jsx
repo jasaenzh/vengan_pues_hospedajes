@@ -171,8 +171,8 @@ const CardApartmentHome = (apartment) => {
         <div>
           <button
             onClick={() => openModal(apartamento._id)}
-            className='bg-green-400 hover:bg-green-600 text-white font-bold py-2 px-4 w-full'>
-            Ver Disponiblidad y Reservar
+            className='bg-green-400 hover:bg-green-600 text-white font-bold py-2 px-4 w-full uppercase'>
+            Reservas
           </button>
         </div>
       </div>

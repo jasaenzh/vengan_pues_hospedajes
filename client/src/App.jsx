@@ -10,6 +10,7 @@ import ValidateEmail from "./pages/ValidateEmail"
 import ProtectedRouteAdmin from "./ProtectedRouteAdmin";
 import AdminApartment from "./pages/AdminApartment"
 import CreateApartment from "./pages/CreateApartment"
+import LandingPage from './pages/LandingPage';
 
 
 function App() {
@@ -19,7 +20,8 @@ function App() {
         <Routes>
 
           {/* Rutas Publicas */}
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/apartamentos" element={<Home />} />
           <Route path="/registrarse" element={<Register />} />
           <Route path="/iniciar-sesion" element={<Login />} />
 

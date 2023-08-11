@@ -19,6 +19,7 @@
     "react-ionicons": "^4.2.1",
     "react-router-dom": "^6.14.1",
     "react-scripts": "5.0.1",
+    "tw-elements": "^1.0.0-beta3",
     "universal-cookie": "^4.0.4",
     "web-vitals": "^2.1.4"
   },
