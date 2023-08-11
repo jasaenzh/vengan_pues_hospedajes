@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect } from "react";
 import { useState } from 'react';
-import { createBookingRequest } from "../api/bookings.calls";
+import { createBookingRequest, getBookingsByApartmentPublicRequest } from "../api/bookings.calls";
 import Cookies from 'js-cookie'
 
 export const BookingContext = createContext();
@@ -32,6 +32,18 @@ export const BookingProvider = ({ children }) => {
     }
   }
 
+  const getBookingsByApartmentPublicContext = async (apartmentId) => {
+    try {
+      const response = await getBookingsByApartmentPublicRequest(apartmentId)
+      return response
+    } catch (error) {
+      const errorMessage = Array.isArray(error.response.data) ? error.response.data : [error.response.data];
+      setErrorsBooking(errorMessage);
+      return error.response
+    }
+
+  }
+
   /** Si hay errores, seteamos un timeout para que desaparezcan */
   useEffect(() => {
     if (errorsBooking.length > 0) {
@@ -47,7 +59,8 @@ export const BookingProvider = ({ children }) => {
       errorsBooking,
       bookings,
       setBookings,
-      createBookingContext
+      createBookingContext,
+      getBookingsByApartmentPublicContext
     }}>
       {children}
     </BookingContext.Provider>

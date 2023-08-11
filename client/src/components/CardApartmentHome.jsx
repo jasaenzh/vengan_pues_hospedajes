@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import Carousel from './Carousel';
 import StarsCalification from './StarsCalification';
@@ -5,37 +6,53 @@ import { useForm } from 'react-hook-form';
 import Calendario from './Calendario';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-// import es from 'dayjs/locale/es';
 import { useBookingContext } from '../context/BookingsContext';
-
-
-
-dayjs.extend(utc)
-
+import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 
 const CardApartmentHome = (apartment) => {
 
-  // dayjs.locale(es);
+  const { register, handleSubmit } = useForm();
+
+  const { isAuthenticated } = useAuth();
+
+  dayjs.extend(utc)
+
+  // Estado para controlar si el modal está abierto o cerrado
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { createBookingContext, getBookingsByApartmentPublicContext } = useBookingContext();
+
+  const [stateBooking, setStateBooking] = useState({})
+
+  const [apartmentIdBookings, setApartmentIdBookings] = useState([])
+
+  const [stateCalendario, setCalendarioKey] = useState(false);
+
+  const [refreshBookings, setRefreshBookings] = useState(false);
+
+  useEffect(() => {
+    if (stateCalendario || refreshBookings) {
+      console.log("Entro aca")
+      const getBookins = async () => {
+        const bookings = await getBookingsByApartmentPublicContext(apartamento._id);
+        setApartmentIdBookings(bookings.data);
+      }
+      getBookins();
+      setRefreshBookings(false);
+    }
+  }, [stateCalendario, refreshBookings, getBookingsByApartmentPublicContext])
 
   const apartamento = apartment.aparment
   let bedroomsLabel = apartamento.bedrooms === 1 ? 'habitación' : 'habitaciones';
   let doubleBedsLabel = apartamento.doubleBeds === 1 ? 'cama doble' : 'camas dobles';
   let singleBedsLabel = apartamento.singleBeds === 1 ? 'cama sencilla' : 'camas sencillas';
 
-  const { register, handleSubmit } = useForm();
-
-
-  // Estado para controlar si el modal está abierto o cerrado
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const { createBookingContext } = useBookingContext();
-
-  const [stateBooking, setStateBooking] = useState({})
-
   // Función para abrir el modal
-  const openModal = (apartmentId) => {
+  const openModal = async (apartmentId) => {
+    const responseBookingApto = await getBookingsByApartmentPublicContext(apartmentId)
+    setApartmentIdBookings(responseBookingApto.data)
     setIsModalOpen(true);
-    console.log(apartmentId)
   };
 
   // Función para cerrar el modal
@@ -54,10 +71,18 @@ const CardApartmentHome = (apartment) => {
     return "";
   }
 
+  // Dar formato a las fechas
+  function formatDateToSpanish(dateString) {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const date = new Date(dateString);
+    return date.toLocaleDateString('es-ES', options);
+  }
+
   const onSubmitBookings = handleSubmit(async (values) => {
     const { startDate, endDate, apartmentId } = values
     const startDateUTC = dayjs.utc(startDate).format()
     const endDateUTC = dayjs.utc(endDate).format()
+
 
     const data = {
       startDate: startDateUTC,
@@ -68,7 +93,9 @@ const CardApartmentHome = (apartment) => {
     try {
       const tokenHeader = getCookieValue("token");
       const resp = await createBookingContext(data, tokenHeader)
-      setStateBooking(resp)
+      setStateBooking(resp);
+      setRefreshBookings(true);
+      setCalendarioKey(!stateCalendario);
       // closeModal()
     } catch (error) {
       console.error("Error al crear la reserva", error);
@@ -76,9 +103,7 @@ const CardApartmentHome = (apartment) => {
 
   });
 
-  useEffect(() => {
-    console.log("ESTADO GLOBAL BOOKING", stateBooking)
-  }, [stateBooking])
+
 
   return (
     <div className='mx-auto max-w-md overflow-hidden rounded-lg bg-white shadow'>
@@ -89,62 +114,69 @@ const CardApartmentHome = (apartment) => {
           ))
         }
       </Carousel>
-      <div className='p-4'>
-        {/* Titulo */}
-        <h3 className='text-xl font-medium text-gray-900'>
-          Apartamento {apartamento.apartmentNumber}
-        </h3>
+      <div className='p-4 h-4/5'>
+        <div className='p-4 h-max'>
+          {/* Titulo */}
+          <h3 className='text-xl font-medium text-gray-900'>
+            Apartamento {apartamento.apartmentNumber}
+          </h3>
 
-        {/* Subtitulo */}
-        <span className='text-gray-600 grid grid-cols-3 mt-2'>
-          <span className='min-w-min'>${apartamento.price}</span>
-          <span className='col-span-2 flex justify-end'><StarsCalification /></span>
-        </span>
-
-        {/* Texto */}
-        <p className='mt-1 text-gray-500'>
-          <span>{apartamento.duplex === true ? 'Dúplex, ' : ''}</span>
-          <span>Ubicado en el {apartamento.location}, </span>
-          <span>cuenta con {apartamento.bedrooms} {bedroomsLabel}</span>
-          <span> equipada{apartamento.doubleBeds > 1 || apartamento.singleBeds > 1 ? '' : 's'} con </span>
-          <span>{apartamento.doubleBeds && apartamento.doubleBeds !== 0 ? ` ${apartamento.doubleBeds} ${doubleBedsLabel}` : ''}</span>
-          <span>
-            {
-              apartamento.singleBeds && apartamento.singleBeds !== 0
-                ? `${apartamento.doubleBeds && apartamento.doubleBeds !== 0
-                  ? ' y la otra con '
-                  : ''}${apartamento.singleBeds} ${singleBedsLabel}`
-                : ''
-            },
+          {/* Subtitulo */}
+          <span className='text-gray-600 grid grid-cols-3 mt-2'>
+            <span className='min-w-min'>${apartamento.price}</span>
+            <span className='col-span-2 flex justify-end'><StarsCalification /></span>
           </span>
-          <span> {apartamento.bathrooms} baño{apartamento.bathrooms === 1 ? '' : 's'} {apartamento.hotWater === true ? ` con agua caliente` : ``}</span>
-          <span>{apartamento.hairdryer >= 1 ? `, secador de cabello` : ``}</span>
-          <span>{apartamento.livingRoom === true ? `, sala` : ``}</span>
-          <span>{apartamento.diningRoom >= 1 ? `, comedor` : ``}</span>
-          <span>{apartamento.sofaBed >= 1 ? `, sofá cama` : ``}</span>
-          <span>{apartamento.tv >= 1 ? `, televisor` : ``}</span>
-          <span>{apartamento.internet === true ? `, internet` : ``}</span>
-          <span>{apartamento.kitchen === true ? `, cocina equipada con` : ``}</span>
-          <span>{apartamento.fridge === true ? ` nevera` : ``}</span>
-          <span>{apartamento.washingMachine === true ? `, lavadora` : ``}</span>
-          <span>{apartamento.microwave === true ? `, microondas` : ``}</span>
-          <span>{apartamento.coffeeMaker === true ? `, cafetera` : ``}</span>
-          <span>{apartamento.dishwasher === true ? `, licuadora` : ``}</span>
-          <span>{apartamento.breadToaster === true ? `, tostador de pan` : ``}</span>
-          <span>{apartamento.pressureCooker === true ? `, olla presión` : ``}</span>
-          <span>{apartamento.riceCooker === true ? `, olla arrocera con vaporera` : ``}</span>
-          <span>{apartamento.grill === true ? `, sandwichera` : ``}</span>
-          <span>{apartamento.securityCameras === true ? `, cámaras de seguridad en exteriores` : ``}</span>
-          <span>{apartamento.terraceWithView === true ? `, terraza con vista panorámica` : ``}</span>
-        </p>
+
+          {/* Texto */}
+          <div className='mt-3'>
+            <p className='mt-1 text-gray-500 text-sm'>
+              <span>{apartamento.duplex === true ? 'Dúplex, ' : ''}</span>
+              <span>Ubicado en el {apartamento.location}, </span>
+              <span>cuenta con {apartamento.bedrooms} {bedroomsLabel}</span>
+              <span> equipada{apartamento.doubleBeds > 1 || apartamento.singleBeds > 1 ? '' : 's'} con </span>
+              <span>{apartamento.doubleBeds && apartamento.doubleBeds !== 0 ? ` ${apartamento.doubleBeds} ${doubleBedsLabel}` : ''}</span>
+              <span>
+                {
+                  apartamento.singleBeds && apartamento.singleBeds !== 0
+                    ? `${apartamento.doubleBeds && apartamento.doubleBeds !== 0
+                      ? ' y la otra con '
+                      : ''}${apartamento.singleBeds} ${singleBedsLabel}`
+                    : ''
+                },
+              </span>
+              <span> {apartamento.bathrooms} baño{apartamento.bathrooms === 1 ? '' : 's'} {apartamento.hotWater === true ? ` con agua caliente` : ``}</span>
+              <span>{apartamento.hairdryer >= 1 ? `, secador de cabello` : ``}</span>
+              <span>{apartamento.livingRoom === true ? `, sala` : ``}</span>
+              <span>{apartamento.diningRoom >= 1 ? `, comedor` : ``}</span>
+              <span>{apartamento.sofaBed >= 1 ? `, sofá cama` : ``}</span>
+              <span>{apartamento.tv >= 1 ? `, televisor` : ``}</span>
+              <span>{apartamento.internet === true ? `, internet` : ``}</span>
+              <span>{apartamento.kitchen === true ? `, cocina equipada con` : ``}</span>
+              <span>{apartamento.fridge === true ? ` nevera` : ``}</span>
+              <span>{apartamento.washingMachine === true ? `, lavadora` : ``}</span>
+              <span>{apartamento.microwave === true ? `, microondas` : ``}</span>
+              <span>{apartamento.coffeeMaker === true ? `, cafetera` : ``}</span>
+              <span>{apartamento.dishwasher === true ? `, licuadora` : ``}</span>
+              <span>{apartamento.breadToaster === true ? `, tostador de pan` : ``}</span>
+              <span>{apartamento.pressureCooker === true ? `, olla presión` : ``}</span>
+              <span>{apartamento.riceCooker === true ? `, olla arrocera con vaporera` : ``}</span>
+              <span>{apartamento.grill === true ? `, sandwichera` : ``}</span>
+              <span>{apartamento.securityCameras === true ? `, cámaras de seguridad en exteriores` : ``}</span>
+              <span>{apartamento.terraceWithView === true ? `, terraza con vista panorámica` : ``}</span>
+            </p>
+          </div>
+
+        </div>
+
+        <div>
+          <button
+            onClick={() => openModal(apartamento._id)}
+            className='bg-green-400 hover:bg-green-600 text-white font-bold py-2 px-4 w-full'>
+            Ver Disponiblidad y Reservar
+          </button>
+        </div>
       </div>
-      <div>
-        <button
-          onClick={() => openModal(apartamento._id)}
-          className='bg-green-400 hover:bg-green-600 text-white font-bold py-2 px-4 w-full'>
-          Ver Disponiblidad y Reservar
-        </button>
-      </div>
+
 
       {/* Modal */}
       {isModalOpen && (
@@ -206,7 +238,9 @@ const CardApartmentHome = (apartment) => {
                       />
                     </label>
                   </div>
-                  <button className='col-span-3 block w-full bg-[#206D53] px-2 py-2 my-2 hover:no-underline text-white mb-6 mt-6'>
+                  <button
+                    disabled={!isAuthenticated}
+                    className={`col-span-3 block w-full ${isAuthenticated ? 'bg-[#206D53] px-2 py-2 my-2 hover:no-underline text-white mb-6 mt-6' : 'bg-gray-300 cursor-not-allowed px-2 py-2 my-2 text-white mb-6 mt-6'}`}>
                     Crear Reserva
                   </button>
                 </form>
@@ -214,43 +248,66 @@ const CardApartmentHome = (apartment) => {
                 {/* Respuesta del formulario  */}
 
                 {
-                  stateBooking && stateBooking.status === 201
+                  isAuthenticated
                     ? (
-                      <div >
-                        <h1>Se ha creado la reserva correctamente</h1>
-                        <div className='grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3 border-2 p-5'>
-                          <span>Fecha de inicio:</span> <span>{dayjs(stateBooking.data.startDate).format('DD-MMMM-YYYY')}</span>
-                          <span>Fecha de fin:</span> <span>{dayjs(stateBooking.data.endDate).format('DD-MMMM-YYYY')}</span>
-                          <span>Cantidad de dias:</span> <span>{stateBooking.data.numberOfDays}</span>
-                          <span>Precio:</span> <span>{stateBooking.data.totalPrice}</span>
-                          <span>Código de la reserva:</span> <span>{stateBooking.data.reservationCode}</span>
-                          <span>Estado:</span> <span>{stateBooking.data.state}</span>
-                        </div>
-                      </div>
-                    )
-                    : (
                       <div>
                         {
-                          stateBooking ?
-                            null
+                          stateBooking && stateBooking.status === 201
+                            ? (
+                              <div >
+                                <h1>Se ha creado la reserva correctamente</h1>
+                                <div className='grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3 border-2 p-5'>
+
+                                  <span>Fecha de inicio:</span>
+                                  <span>
+                                    {formatDateToSpanish(
+                                      dayjs(stateBooking.data.startDate).add(2, 'day').format('YYYY-MM-DD')
+                                    )}
+                                  </span>
+                                  <span>Fecha de fin:</span>
+                                  <span>
+                                    {formatDateToSpanish(
+                                      dayjs(stateBooking.data.endDate).add(2, 'day').format('YYYY-MM-DD')
+                                    )}
+                                  </span>
+                                  <span>Cantidad de dias:</span> <span>{stateBooking.data.numberOfDays}</span>
+                                  <span>Precio:</span> <span>{stateBooking.data.totalPrice}</span>
+                                  <span>Código de la reserva:</span> <span>{stateBooking.data.reservationCode}</span>
+                                  <span>Estado:</span> <span>{stateBooking.data.state}</span>
+                                </div>
+                              </div>
+                            )
                             : (
                               <div>
-                                Aca van los errores
+                                {
+                                  stateBooking ?
+                                    null
+                                    : (
+                                      <div>
+                                        Aca van los errores
+                                      </div>
+                                    )
+                                }
                               </div>
                             )
                         }
                       </div>
                     )
+                    : (
+                      <div>
+                        <span>
+                          Debes de estar registrado para poder crear una reserva <Link to="/registrarse" className="text-sky-500">Registrate</Link> o <Link to="/iniciar-sesion" className="text-sky-500">Inicia Sesión</Link>
+                        </span>
+
+                      </div>)
                 }
 
               </div>
 
 
-
-
               {/* Div para calendario */}
               <div>
-                <Calendario />
+                <Calendario apartmentIdBookings={apartmentIdBookings} stateCalendario={stateCalendario} getBookingsByApartmentPublicContext={getBookingsByApartmentPublicContext} apartamento={apartamento} />
               </div>
 
             </div>
