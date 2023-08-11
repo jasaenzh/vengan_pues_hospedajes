@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form"
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom"
 import { useEffect } from "react";
-import Cookies from 'js-cookie';
 
 function Login() {
 
@@ -19,7 +18,7 @@ function Login() {
   useEffect(() => {
     if (isAuthenticated) {
       // Todo: Se podria redireccionar a otra pagina de usuarios
-      navigate("/");
+      navigate("/apartamentos");
     }
   }, [isAuthenticated, navigate])
 

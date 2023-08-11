@@ -28,6 +28,7 @@ function App() {
           {/* Rutas Privadas */}
           <Route element={<ProtectedRoute />}>
             <Route path="/perfil" element={<Profile />} />
+            <Route path="/apartamentos" element={<Home />} />
             <Route path="/validar-email" element={<ValidateEmail />} />
           </Route>
 

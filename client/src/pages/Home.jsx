@@ -18,7 +18,7 @@ function Home() {
     if (isAuthenticated && user.emailVerified === false) {
       navigate("/validar-email")
     } else if (isAuthenticated && user.emailVerified === true) {
-      navigate("/")
+      navigate("/apartamentos")
     }
   }, [user, isAuthenticated, navigate])
 
@@ -31,7 +31,7 @@ function Home() {
         <div>Cargando...</div>
       ) : (apartments && apartments?.length === 0 ? (
         <div>
-          <p>No hay apartamentos para mostrar...</p>
+          <p>cargando...</p>
         </div>
       ) : (
         apartments?.map((aparment, key) => (
