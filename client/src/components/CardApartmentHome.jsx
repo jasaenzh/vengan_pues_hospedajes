@@ -9,6 +9,7 @@ import utc from 'dayjs/plugin/utc';
 import { useBookingContext } from '../context/BookingsContext';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
+import { GrLinkNext } from "react-icons/gr"
 
 const CardApartmentHome = (apartment) => {
 
@@ -196,18 +197,19 @@ const CardApartmentHome = (apartment) => {
               </button>
             </div>
 
-            <div className='grid grid-cols-2 gap-3'>
+
+
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-3 bg-indigo-600'>
 
               {/* Div para el formulario */}
-              <div className='flex flex-col justify-center items-center w-full gap-3 p-5'>
+              <div className='flex flex-col justify-center items-center w-full gap-3 p-5 bg-slate-500'>
                 <form
-                  className='grid grid-cols-1 sm:grid-cols-3 gap-2 border-b-2'
-                  onSubmit={onSubmitBookings} encType="multipart/form-data"
-                >
+                  className='grid grid-cols-1 sm:grid-cols-3 gap-1'
+                  onSubmit={onSubmitBookings} encType="multipart/form-data">
                   <input
                     type="hidden"
-                    {...register('apartmentId', { value: apartamento._id })}
-                  />
+                    {...register('apartmentId', { value: apartamento._id })} />
+
                   <div>
                     <label htmlFor='start-date' className=''>
                       <input
@@ -217,17 +219,13 @@ const CardApartmentHome = (apartment) => {
                         {...register('startDate')}
                       />
                     </label>
+                  </div>
 
-                  </div>
                   {/* Flecha */}
-                  <div className='flex justify-center items-center max-sm'>
-                    <svg xmlns="http://www.w3.org/2000/svg" className=" icon icon-tabler icon-tabler-arrow-narrow-right" width="44" height="44" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#2c3e50" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <path d="M5 12l14 0" />
-                      <path d="M15 16l4 -4" />
-                      <path d="M15 8l4 4" />
-                    </svg>
+                  <div className='flex justify-center items-center bg-red-300'>
+                    <GrLinkNext></GrLinkNext>
                   </div>
+
                   <div>
                     <label htmlFor='end-date'>
                       <input
@@ -238,6 +236,7 @@ const CardApartmentHome = (apartment) => {
                       />
                     </label>
                   </div>
+
                   <button
                     disabled={!isAuthenticated}
                     className={`col-span-3 block w-full ${isAuthenticated ? 'bg-[#206D53] px-2 py-2 my-2 hover:no-underline text-white mb-6 mt-6' : 'bg-gray-300 cursor-not-allowed px-2 py-2 my-2 text-white mb-6 mt-6'}`}>
@@ -245,9 +244,8 @@ const CardApartmentHome = (apartment) => {
                   </button>
                 </form>
 
-                {/* Respuesta del formulario  */}
-
                 {
+                  //Respuesta del formulario
                   isAuthenticated
                     ? (
                       <div>
@@ -306,7 +304,7 @@ const CardApartmentHome = (apartment) => {
 
 
               {/* Div para calendario */}
-              <div>
+              <div className='hidden lg:block'>
                 <Calendario apartmentIdBookings={apartmentIdBookings} stateCalendario={stateCalendario} getBookingsByApartmentPublicContext={getBookingsByApartmentPublicContext} apartamento={apartamento} />
               </div>
 

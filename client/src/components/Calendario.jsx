@@ -64,7 +64,7 @@ const Calendario = ({ apartmentIdBookings }) => {
       days.push(
         <span
           key={`day-${dayNumber}`}
-          className={`flex items-center justify-center w-20 h-20 rounded-lg m-1 ${isBooked ? 'bg-red-300' : (isPastDay ? 'bg-gray-300' : 'bg-green-300')}`}
+          className={`flex items-center justify-center sm:w-18 md:w-16 h-10 rounded-md my-1  ${isBooked ? 'bg-red-300' : (isPastDay ? 'bg-gray-300' : 'bg-green-300')}`}
         >
           {dayNumber}
         </span>
@@ -93,27 +93,27 @@ const Calendario = ({ apartmentIdBookings }) => {
       <div className='flex justify-evenly mb-3 text-xs text-gray-900'>
         <span className='flex items-center'>
           <div className='w-3 h-3 bg-gray-300 rounded-full mr-1'></div>
-          Días Pasados
+          No hábil
         </span>
         <span className='flex items-center'>
           <div className='w-3 h-3 bg-green-300 rounded-full mr-1'></div>
-          Fechas Disponibles
+          Disponible
         </span>
         <span className='flex items-center'>
           <div className='w-3 h-3 bg-red-300 rounded-full mr-1'></div>
-          Fechas No Disponibles
+          Ocupado
         </span>
       </div>
 
-      <div className='grid grid-cols-7 text-xs text-center text-gray-900 border-2'>
+      <div className='grid grid-cols-7 text-xs text-center text-gray-900 border-2 md:px-2 xs:m-[0,5] items-center '>
         {/* Dias de la semana */}
-        <span className='flex items-center justify-center w-full h-10 rounded-lg'>Dom</span>
-        <span className='flex items-center justify-center w-full h-10 rounded-lg'>Lun</span>
-        <span className='flex items-center justify-center w-full h-10 rounded-lg'>Mar</span>
-        <span className='flex items-center justify-center w-full h-10 rounded-lg'>Mie</span>
-        <span className='flex items-center justify-center w-full h-10 rounded-lg'>Jue</span>
-        <span className='flex items-center justify-center w-full h-10 rounded-lg'>Vie</span>
-        <span className='flex items-center justify-center w-full h-10 rounded-lg'>Sab</span>
+        <span className='flex items-center justify-center sm:w-18 md:w-16 h-10 rounded-lg'>Dom</span>
+        <span className='flex items-center justify-center sm:w-18 md:w-16 h-10 rounded-lg'>Lun</span>
+        <span className='flex items-center justify-center sm:w-18 md:w-16 h-10 rounded-lg'>Mar</span>
+        <span className='flex items-center justify-center sm:w-18 md:w-16 h-10 rounded-lg'>Mie</span>
+        <span className='flex items-center justify-center sm:w-18 md:w-16 h-10 rounded-lg'>Jue</span>
+        <span className='flex items-center justify-center sm:w-18 md:w-16 h-10 rounded-lg'>Vie</span>
+        <span className='flex items-center justify-center sm:w-18 md:w-16 h-10 rounded-lg'>Sab</span>
 
         {/* Numeros dias de la semana */}
         {renderCalendarDays()}

@@ -26,7 +26,7 @@ function Home() {
 
 
   return (
-    <div className='bg-slate-300 max-h-full max-w-full grid grid-cols-1 sm:grid-cols-2 p-3 gap-2'>
+    <div className=' max-h-full max-w-full grid grid-cols-1 sm:grid-cols-2 p-3 gap-2'>
       {loading ? (
         <div>Cargando...</div>
       ) : (apartments && apartments?.length === 0 ? (
