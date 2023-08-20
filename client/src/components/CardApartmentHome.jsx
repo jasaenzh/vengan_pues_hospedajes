@@ -190,51 +190,52 @@ const CardApartmentHome = (apartment) => {
               </h1>
               <button
                 type='button'
-                className='bg-red-400 hover:bg-red-600 text-white font-bold py-[10px] px-4'
+                className='bg-red-400 hover:bg-red-600 text-white font-bold py-[8px] px-4 rounded-md'
                 onClick={closeModal}
               >
                 X
               </button>
             </div>
 
-
-
-            <div className='grid grid-cols-1 lg:grid-cols-2 gap-3 bg-indigo-600'>
-
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-3'>
               {/* Div para el formulario */}
-              <div className='flex flex-col justify-center items-center w-full gap-3 p-5 bg-slate-500'>
-                <form
-                  className='grid grid-cols-1 sm:grid-cols-3 gap-1'
-                  onSubmit={onSubmitBookings} encType="multipart/form-data">
-                  <input
-                    type="hidden"
-                    {...register('apartmentId', { value: apartamento._id })} />
+              <div className='flex flex-col justify-center items-center w-full gap-3 p-5'>
+                {/* <form className='grid grid-cols-1 sm:grid-cols-3 gap-1' onSubmit={onSubmitBookings} encType="multipart/form-data"> */}
 
-                  <div>
-                    <label htmlFor='start-date' className=''>
-                      <input
-                        className='h-10 w-max p-5 border-2 border-gray-300 rounded-lg border-opacity-80 outline-none focus:border-green-400 focus:text-gray-400 transition duration-200'
-                        type='date'
-                        id='start-date'
-                        {...register('startDate')}
-                      />
-                    </label>
-                  </div>
+                <form className='' onSubmit={onSubmitBookings} encType="multipart/form-data">
 
-                  {/* Flecha */}
-                  <div className='flex justify-center items-center bg-red-300'>
-                    <GrLinkNext></GrLinkNext>
-                  </div>
+                  <input type="hidden" {...register('apartmentId', { value: apartamento._id })} />
 
-                  <div>
-                    <label htmlFor='end-date'>
-                      <input
-                        className='h-10 w-max p-5 border-2 border-gray-300 rounded-lg border-opacity-80 outline-none focus:border-green-400 focus:text-gray-400 transition duration-200'
-                        type='date'
-                        id='end-date'
-                        {...register('endDate')}
-                      />
-                    </label>
+                  <div className='grid grid-cols-1 sm:grid-cols-3 gap-1'>
+
+
+                    {/* Fecha Inicio */}
+                    <div className="w-full sm:w-auto">
+                      <label htmlFor='start-date' className=''>
+                        <input
+                          className='h-10 w-max p-5 border-2 border-gray-300 rounded-lg border-opacity-80 outline-none focus:border-green-400 focus:text-gray-400 transition duration-200'
+                          type='date'
+                          id='start-date'
+                          {...register('startDate')}
+                        />
+                      </label>
+                    </div>
+
+                    {/* Flecha Icono */}
+                    <div className='flex justify-center items-center col-span-1 sm:col-span-1'>
+                      <GrLinkNext></GrLinkNext>
+                    </div>
+                    <div>
+                      <label htmlFor='end-date'>
+                        <input
+                          className='h-10 w-max p-5 border-2 border-gray-300 rounded-lg border-opacity-80 outline-none focus:border-green-400 focus:text-gray-400 transition duration-200'
+                          type='date'
+                          id='end-date'
+                          {...register('endDate')}
+                        />
+                      </label>
+                    </div>
+
                   </div>
 
                   <button
@@ -294,12 +295,11 @@ const CardApartmentHome = (apartment) => {
                     : (
                       <div>
                         <span>
-                          Debes de estar registrado para poder crear una reserva <Link to="/registrarse" className="text-sky-500">Registrate</Link> o <Link to="/iniciar-sesion" className="text-sky-500">Inicia Sesión</Link>
+                          Debes de estar registrado para poder crear una reserva. <Link to="/registrarse" className="text-sky-500">Registrate</Link> o <Link to="/iniciar-sesion" className="text-sky-500">Inicia Sesión</Link>
                         </span>
 
                       </div>)
                 }
-
               </div>
 
 
@@ -320,5 +320,40 @@ const CardApartmentHome = (apartment) => {
 
 export default CardApartmentHome;
 
-// {/* <span className="col-span-1 bg-red-400 w-1/2">${apartment.aparment.price} | </span>
-//           <span className='col-span-3'><StarsCalification /></span> */}
+/* 
+
+<span className="col-span-1 bg-red-400 w-1/2">${apartment.aparment.price} | </span>
+<span className='col-span-3'><StarsCalification /></span>
+
+
+Formulario
+<input type="hidden" {...register('apartmentId', { value: apartamento._id })} />
+
+<div className="w-full sm:w-auto">
+    <label htmlFor='start-date' className=''>
+        <input
+          className='h-10 w-max p-5 border-2 border-gray-300 rounded-lg border-opacity-80 outline-none focus:border-green-400 focus:text-gray-400 transition duration-200'
+          type='date'
+          id='start-date'
+          {...register('startDate')}
+        />
+    </label>
+</div>
+
+
+<div className='flex justify-center items-center bg-red-300 col-span-1 sm:col-span-1'>
+      <GrLinkNext></GrLinkNext>
+</div>
+
+<div className="w-full sm:w-auto">
+    <label htmlFor='end-date'>
+        <input
+          className='h-10 w-max p-5 border-2 border-gray-300 rounded-lg border-opacity-80 outline-none focus:border-green-400 focus:text-gray-400 transition duration-200'
+          type='date'
+          id='end-date'
+          {...register('endDate')}
+        />
+    </label>
+</div>
+
+*/
