@@ -117,13 +117,13 @@ function Register() {
 
             <button
               type="submit"
-              className="w-full text-center py-3 rounded bg-green-500 text-white hover:bg-green-700 focus:outline-none my-1">
+              className="w-full text-center py-3 rounded bg-green-600 text-white hover:bg-green-900 focus:outline-none my-1 uppercase">
               Registrarse
             </button>
           </form>
         </div>
 
-        <p className="text-grey-dark mt-6">Ya tienes una cuenta?  <Link to="/iniciar-sesion" className="text-sky-500">Ingresa</Link></p>
+        <p className="text-grey-dark mt-6">Ya tienes una cuenta?  <Link to="/iniciar-sesion" className="text-green-700">Ingresa</Link></p>
 
       </div>
 

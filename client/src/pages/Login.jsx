@@ -60,13 +60,13 @@ function Login() {
 
             <button
               type="submit"
-              className="w-full text-center py-3 rounded bg-green-500 text-white hover:bg-green-700 focus:outline-none my-1">
+              className="w-full text-center py-3 rounded bg-green-600 text-white hover:bg-green-900 focus:outline-none my-1">
               INICIAR SESIÓN
             </button>
 
           </form>
 
-          <p className="text-grey-dark mt-6">No tienes una cuenta?  <Link to="/registrarse" className="text-sky-500">Registrate</Link></p>
+          <p className="text-grey-dark mt-6">No tienes una cuenta?  <Link to="/registrarse" className="text-green-700">Registrate</Link></p>
 
 
         </div>

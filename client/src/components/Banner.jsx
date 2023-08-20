@@ -47,7 +47,7 @@ const Banner = () => {
           {/* Segunda columna */}
           <div className='2xl:pl-16'>
 
-            <h2 className='text-3xl font-bold leading-tight text-black sm:text-4xl lg:text-5xl lg:leading-tight'>
+            <h2 className='text-3xl font-bold leading-tight text-[#7B5640] sm:text-4xl lg:text-5xl lg:leading-tight font-caveat drop-shadow-md'>
               Ofrecemos hospedaje en apartamentos cómodos, seguros y tranquilos.
             </h2>
 

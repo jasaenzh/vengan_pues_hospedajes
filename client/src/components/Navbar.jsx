@@ -102,10 +102,14 @@ function Navbar() {
 
           {
             isAuthenticated ? (<Link to="/" onClick={() => { singOut() }}>
-              <button className={`uppercase mx-auto lg:mx-3 hover:no-underline bg-[#2A6650] font-bold rounded-full py-3 px-6 shadow opacity-75 focus:outline-none focus:shadow-transparent transform hover:scale-105 ease-in-out md:ml-5 md:text-sm md:my-0 ${open ? 'text-lg' : 'text-xl'} text-[#C9B98B] hover:text-[#5a6326a5] hover:bg-[#9FB258] duration-500`}>Cerrar Sesión</button>
+              <button className={`uppercase mx-auto lg:mx-3 hover:no-underline bg-[#3A6052] font-bold rounded-full py-3 px-6 shadow opacity-75 focus:outline-none focus:shadow-transparent transform hover:scale-105 ease-in-out md:ml-5 md:text-sm md:my-0 ${open ? 'text-lg' : 'text-xl'} text-green-300 hover:text-green-600 hover:bg-green-900 duration-500`}>
+                Cerrar Sesión
+              </button>
               {/*  w-full text-center py-3 rounded bg-green-500 text-white hover:bg-green-700 focus:outline-none my-1*/}
             </Link>) : (<Link to="/iniciar-sesion">
-              <button className={`uppercase mx-auto lg:mx-3 hover:no-underline bg-[#2A6650] font-bold rounded-full py-3 px-6 shadow opacity-75 focus:outline-none focus:shadow-transparent transform hover:scale-105 ease-in-out md:ml-5 md:text-sm md:my-0 ${open ? 'text-lg' : 'text-xl'} text-[#C9B98B] hover:text-[#5a6326a5] hover:bg-[#9FB258] duration-500`}>Iniciar Sesión</button>
+              <button className={`uppercase mx-auto lg:mx-3 hover:no-underline bg-[#3A6052] font-bold rounded-full py-3 px-6 shadow opacity-75 focus:outline-none focus:shadow-transparent transform hover:scale-105 ease-in-out md:ml-5 md:text-sm md:my-0 ${open ? 'text-lg' : 'text-xl'} text-green-300 hover:text-green-600 hover:bg-green-900 duration-500`}>
+                Iniciar Sesión
+              </button>
             </Link>)
           }
 

@@ -34,7 +34,6 @@ const CardApartmentHome = (apartment) => {
 
   useEffect(() => {
     if (stateCalendario || refreshBookings) {
-      console.log("Entro aca")
       const getBookins = async () => {
         const bookings = await getBookingsByApartmentPublicContext(apartamento._id);
         setApartmentIdBookings(bookings.data);
@@ -172,7 +171,7 @@ const CardApartmentHome = (apartment) => {
         <div>
           <button
             onClick={() => openModal(apartamento._id)}
-            className='bg-green-400 hover:bg-green-600 text-white font-bold py-2 px-4 w-full uppercase'>
+            className='bg-green-600 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-sm w-full uppercase'>
             Reservas
           </button>
         </div>
